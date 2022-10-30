@@ -9,7 +9,7 @@ import {
 import { Ingredient } from "../../../types/ingredient.type"
 import SlideOver from "../../ui/SlideOver"
 
-export type DrinkSlideOverProps = {
+export type IngredientSlideOverProps = {
   toggle: () => void
   isShowing: boolean
   ingredient: Ingredient | undefined
@@ -35,7 +35,7 @@ const IngredientSlideOver = ({
   isShowing,
   ingredient,
   close,
-}: DrinkSlideOverProps) => {
+}: IngredientSlideOverProps) => {
   const { addToast } = useToast()
   const [formData, dispatch] = useReducer(formReducer, { ...ingredient })
   const [stockTypes, setStockTypes] = useState<string[]>([])
@@ -78,11 +78,24 @@ const IngredientSlideOver = ({
     }
   }
 
+  const SlideOverFooter = () => (
+    <div className="flex flex-row justify-end items-center">
+      <button
+        onClick={submitIngredient}
+        className="bg-gray-900 active:bg-black text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
+      >
+        {!ingredient && <PlusIcon className="fill-white w-4 h-4" />}
+        <p>{ingredient ? "Modifier" : "Ajouter"} l&apos;ingredient</p>
+      </button>
+    </div>
+  )
+
   return (
     <SlideOver
       title={ingredient ? "Modifier l'ingredient" : "Ajouter un ingredient"}
       toggle={toggle}
       isShowing={isShowing}
+      footer={<SlideOverFooter />}
     >
       <div className="flex flex-grow flex-col gap-4">
         <div className="flex flex-col gap-2">
@@ -186,15 +199,6 @@ const IngredientSlideOver = ({
             }}
           />
         </div>
-      </div>
-      <div className="flex flex-row justify-end items-center">
-        <button
-          onClick={submitIngredient}
-          className="bg-gray-900 active:bg-black text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
-        >
-          {!ingredient && <PlusIcon className="fill-white w-4 h-4" />}
-          <p>{ingredient ? "Modifier" : "Ajouter"} l&apos;ingredient</p>
-        </button>
       </div>
     </SlideOver>
   )
