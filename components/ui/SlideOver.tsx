@@ -1,16 +1,17 @@
 import { Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/solid"
-import React, { useEffect, useState } from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 
 export type SlideOverProps = {
   title: string
   toggle: () => void
   isShowing: boolean
-  children: React.ReactNode
+  children: ReactNode
+  footer?: ReactNode
 }
 
-const SlideOver = ({ title, toggle, isShowing, children }: SlideOverProps) => {
+const SlideOver = ({ title, toggle, isShowing, children, footer }: SlideOverProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
 
   useEffect(() => {
@@ -51,8 +52,11 @@ const SlideOver = ({ title, toggle, isShowing, children }: SlideOverProps) => {
               className="fill-white w-6 h-6 cursor-pointer"
             />
           </div>
-          <div className="p-4 flex flex-grow flex-col justify-between overflow-y-auto">
+          <div className="p-4 flex flex-grow flex-col overflow-y-auto">
             {children}
+          </div>
+          <div className="p-4 w-full">
+            {footer}
           </div>
         </div>
       </Transition.Child>
