@@ -149,14 +149,6 @@ const Ingredients = () => {
             <RCTable
               rowKey={(row) => row._id}
               columns={columns}
-              expandable={{
-                defaultExpandAllRows: false,
-                expandedRowRender: (row) => (
-                  <p style={{ margin: 0 }}>{JSON.stringify(row)}</p>
-                ),
-                rowExpandable: () => true,
-                showExpandColumn: true,
-              }}
               data={ingredients}
               className=""
               rowClassName=""
