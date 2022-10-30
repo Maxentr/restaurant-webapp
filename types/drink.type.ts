@@ -1,5 +1,5 @@
 export type DrinkStockSize = {
-  _id: string
+  _id?: string
   name: string
   price: number
   quantity: number
