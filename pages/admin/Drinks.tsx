@@ -124,14 +124,11 @@ const Drinks = () => {
     }
   }
 
-  const handleChangement = (type: "create" | "edit", drink: Drink) => {
-    if (type === "create") {
-      setDrinks([...drinks, drink])
-    } else if (type === "edit") {
+  const handleSlideOverSubmit = (type: "create" | "edit", drink: Drink) => {
+    if (type === "create") setDrinks([...drinks, drink])
+    else if (type === "edit") {
       const newDrinks = drinks.map((ing) => {
-        if (ing._id === drink._id) {
-          return drink
-        }
+        if (ing._id === drink._id) return drink
         return ing
       })
       setDrinks(newDrinks)
@@ -162,7 +159,6 @@ const Drinks = () => {
         <div className="max-w-7xl">
           {drinks.length > 0 && (
             <RCTable
-              
               rowKey={(row) => row._id}
               columns={columns}
               expandable={{
@@ -199,7 +195,7 @@ const Drinks = () => {
           isShowing={isShowing}
           toggle={toggle}
           drink={selectedDrink}
-          close={handleChangement}
+          close={handleSlideOverSubmit}
         />
       </div>
     </AdminLayout>
