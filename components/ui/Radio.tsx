@@ -5,6 +5,7 @@ type RadioProps = {
   onSelected: (values: any[]) => void
   returnValueOnSelected: any[]
   disabled?: boolean
+  selected?: boolean
   label: string
   name: string
   id: string
@@ -14,6 +15,7 @@ const Radio = ({
   onSelected,
   disabled,
   label,
+  selected = false,
   name,
   id,
   returnValueOnSelected,
@@ -32,6 +34,7 @@ const Radio = ({
         id={id}
         type="radio"
         name={name}
+        defaultChecked={selected}
         disabled={disabled}
         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
       />
