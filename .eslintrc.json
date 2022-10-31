@@ -11,5 +11,8 @@
   },
   "globals": {
     "JSX": true
+  },
+  "rules": {
+    "no-unused-vars": "warn"
   }
 }
