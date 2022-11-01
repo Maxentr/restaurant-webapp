@@ -1,15 +1,26 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useRef, useState } from "react"
-import Modal from "../../components/ui/Modal"
+import Modal, { ModalType } from "../../components/ui/Modal"
 import useModal from "../useModal"
 
 type ModalContent = {
   title: string
   message: string
+  type?: ModalType
+  isConfirmation?: boolean
+  cancelBtnText?: string
+  confirmBtnTxt?: string
 }
 
 type ModalContextType = {
-  showConfirmation: (title: string, message: string) => Promise<boolean>
+  showConfirmation: ({
+    title,
+    message,
+    type,
+    isConfirmation,
+    cancelBtnText,
+    confirmBtnTxt,
+  }: ModalContent) => Promise<boolean>
 }
 
 type ConfirmationModalProviderProps = {
@@ -22,14 +33,15 @@ const ConfirmationModalContext = React.createContext<ModalContextType>(
 
 const ConfirmationModalProvider = (props: ConfirmationModalProviderProps) => {
   const { isShowing, toggle } = useModal()
-  const [content, setContent] = useState<ModalContent>({ title: "", message: "" })
+
+  const [content, setContent] = useState<ModalContent>({
+    title: "",
+    message: "",
+  })
   const resolver = useRef<Function>()
 
-  const handleShow = (title: string, message: string): Promise<boolean> => {
-    setContent({
-      title,
-      message,
-    })
+  const handleShow = (props: ModalContent): Promise<boolean> => {
+    setContent(props)
     toggle()
     return new Promise(function (resolve) {
       resolver.current = resolve
@@ -54,16 +66,18 @@ const ConfirmationModalProvider = (props: ConfirmationModalProviderProps) => {
     <ConfirmationModalContext.Provider value={modalContext}>
       {props.children}
 
-        <Modal
-          isShowing={isShowing}
-          toggle={toggle}
-          title={content.title}
-          message={content.message}
-          cancelBtnText="Annuler"
-          confirmBtnTxt="Supprimer"
-          onCancel={handleCancel}
-          onConfirm={handleOk}
-        />
+      <Modal
+        isShowing={isShowing}
+        toggle={toggle}
+        title={content.title}
+        message={content.message}
+        type={content.type}
+        cancelBtnText="Annuler"
+        confirmBtnTxt="Supprimer"
+        onCancel={handleCancel}
+        onConfirm={handleOk}
+        isConfirmation={content.isConfirmation}
+      />
     </ConfirmationModalContext.Provider>
   )
 }
