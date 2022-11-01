@@ -3,11 +3,14 @@ import { XMarkIcon } from "@heroicons/react/20/solid"
 import React, { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 
+export type ModalType = "success" | "info" | "warning" | "danger" | "error"
+
 type ModalProps = {
   isShowing: boolean
   toggle: () => void
   title: string
   message: string
+  type?: ModalType
   cancelBtnText?: string
   confirmBtnTxt?: string
   isConfirmation?: boolean
@@ -17,6 +20,7 @@ type ModalProps = {
 
 const Modal = ({
   isShowing,
+  type = "info",
   toggle,
   title,
   message,
@@ -32,6 +36,14 @@ const Modal = ({
     setIsBrowser(true)
   }, [])
 
+  const confirmBtnBg: Record<ModalType, string> = {
+    info: "bg-blue-500",
+    success: "w-full bg-emerald-600",
+    warning: "bg-orange-500",
+    danger: "bg-red-600",
+    error: "w-full bg-red-600",
+  }
+
   const content = (
     <Transition show={isShowing}>
       <Transition.Child
@@ -46,11 +58,11 @@ const Modal = ({
       />
       <Transition.Child
         enter="transition-all transform duration-200 ease-out"
-        enterFrom="opacity-0 scale-90 translate-y-8"
+        enterFrom="opacity-0 scale-90 translate-y-10"
         enterTo="opacity-100 scale-100 translate-y-0"
         leave="transition-all transform duration-200 ease-in"
         leaveFrom="opacity-100 scale-100 translate-y-0"
-        leaveTo="opacity-0 scale-90 translate-y-8"
+        leaveTo="opacity-0 scale-90 translate-y-10"
         as="div"
         onClick={toggle}
         className="fixed inset-0 overflow-hidden z-50 flex justify-center items-center"
@@ -70,16 +82,20 @@ const Modal = ({
             {message}
           </div>
           <div className="p-4 w-full flex flex-row gap-2 justify-end">
-            <button
-              onClick={onCancel}
-              className="bg-white text-gray-900 rounded-md py-2 px-4"
-            >
-              {cancelBtnText}
-            </button>
-            {isConfirmation && (
+            {!(type === "success" || type === "error") && (
+              <button
+                onClick={onCancel}
+                className="bg-white text-gray-900 rounded-md py-2 px-4"
+              >
+                {cancelBtnText}
+              </button>
+            )}
+            {(isConfirmation || type === "error" || type === "success") && (
               <button
                 onClick={onConfirm}
-                className="bg-red-600 text-white rounded-md py-2 px-4"
+                className={
+                  confirmBtnBg[type] + " text-white rounded-md py-2 px-4"
+                }
               >
                 {confirmBtnTxt}
               </button>
