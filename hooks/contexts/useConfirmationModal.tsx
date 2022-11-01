@@ -22,7 +22,7 @@ const ConfirmationModalContext = React.createContext<ModalContextType>(
 
 const ConfirmationModalProvider = (props: ConfirmationModalProviderProps) => {
   const { isShowing, toggle } = useModal()
-  const [content, setContent] = useState<ModalContent | null>()
+  const [content, setContent] = useState<ModalContent>({ title: "", message: "" })
   const resolver = useRef<Function>()
 
   const handleShow = (title: string, message: string): Promise<boolean> => {
@@ -54,7 +54,6 @@ const ConfirmationModalProvider = (props: ConfirmationModalProviderProps) => {
     <ConfirmationModalContext.Provider value={modalContext}>
       {props.children}
 
-      {content && (
         <Modal
           isShowing={isShowing}
           toggle={toggle}
@@ -65,7 +64,6 @@ const ConfirmationModalProvider = (props: ConfirmationModalProviderProps) => {
           onCancel={handleCancel}
           onConfirm={handleOk}
         />
-      )}
     </ConfirmationModalContext.Provider>
   )
 }
