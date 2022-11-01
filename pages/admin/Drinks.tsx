@@ -13,10 +13,13 @@ import { ColumnsType, DefaultRecordType } from "rc-table/lib/interface"
 import { useToast } from "../../hooks/contexts/useToast"
 import DrinkSlideOver from "../../components/pages/admin/DrinkSlideOver"
 import useModal from "../../hooks/useModal"
+import { useConfirmationModal } from "../../hooks/contexts/useConfirmationModal"
 
 const Drinks = () => {
   const { addToast } = useToast()
   const { isShowing, toggle } = useModal()
+  const { showConfirmation } = useConfirmationModal()
+
   const [drinks, setDrinks] = useState<Drink[]>([])
   const [selectedDrink, setSelectedDrink] = useState<Drink>()
 
@@ -58,7 +61,7 @@ const Drinks = () => {
       width: 50,
       onCell: (record) => ({
         onClick() {
-          onClickHandler("edit", record as Drink)
+          handleEdition(record as Drink)
         },
       }),
       className: "text-right px-4 border-y border-gray-200 py-2",
@@ -72,7 +75,7 @@ const Drinks = () => {
       ),
       onCell: (record) => ({
         onClick() {
-          onClickHandler("delete", record as Drink)
+          handleDeletion(record as Drink)
         },
       }),
       key: "updatedAt",
@@ -107,21 +110,29 @@ const Drinks = () => {
     toggle()
   }
 
-  const onClickHandler = async (columnName: string, row: Drink) => {
-    if (columnName === "delete") {
-      await deleteDrink(row._id)
-      const newDrinks = drinks.filter((drink) => drink._id !== row._id)
-      setDrinks(newDrinks)
+  const handleDeletion = async (drink: Drink) => {
+    const isConfirm = await showConfirmation({
+      type: "danger",
+      title: "Êtes-vous sûr de vouloir supprimer ?",
+      message:
+        "En supprimant cette boisson, vous supprimerez également toutes les menus qui la contiennent.",
+    })
+    if (!isConfirm) return
 
-      addToast({
-        title: "Suppression réussie",
-        message: "La boisson a bien été supprimée",
-        type: "success",
-      })
-    } else if (columnName === "edit") {
-      setSelectedDrink(row)
-      toggle()
-    }
+    await deleteDrink(drink._id)
+    const newDrinks = drinks.filter((drink) => drink._id !== drink._id)
+    setDrinks(newDrinks)
+
+    addToast({
+      title: "Suppression réussie",
+      message: "La boisson a bien été supprimée",
+      type: "success",
+    })
+  }
+
+  const handleEdition = (drink: Drink) => {
+    setSelectedDrink(drink)
+    toggle()
   }
 
   const handleSlideOverSubmit = (type: "create" | "edit", drink: Drink) => {
@@ -136,7 +147,7 @@ const Drinks = () => {
     toggle()
   }
 
-  function CustomExpandIcon(props: any) {
+  const CustomExpandIcon = (props: any) => {
     return (
       <div
         onClick={(e) => {
