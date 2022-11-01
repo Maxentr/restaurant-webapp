@@ -8,6 +8,8 @@ import { Menu } from "../types/menu.type"
 import GuestTemplate from "../layouts/GuestLayout"
 
 const Home: NextPage = () => {
+  const { isShowing, toggle } = useModal()
+
   const [menus, setMenus] = useState<Menu[]>([])
   const [cards, setCards] = useState<CardType[]>([])
 
@@ -16,7 +18,6 @@ const Home: NextPage = () => {
   useEffect(() => {
     const getAndSetMenus = async () => {
       const menus = await getMenus()
-      console.log(menus)
       setMenus(menus)
       setCards(
         menus.map((menu) => ({
@@ -30,8 +31,6 @@ const Home: NextPage = () => {
     }
     getAndSetMenus()
   }, [])
-
-  const { isShowing, toggle } = useModal()
 
   const handleSlideOverOpening = (id: string) => {
     const menu = menus.find((menu) => menu._id === id)
