@@ -12,10 +12,13 @@ import { ColumnsType, DefaultRecordType } from "rc-table/lib/interface"
 import { useToast } from "../../hooks/contexts/useToast"
 import IngredientSlideOver from "../../components/pages/admin/IngredientSlideOver"
 import useModal from "../../hooks/useModal"
+import { useConfirmationModal } from "../../hooks/contexts/useConfirmationModal"
 
 const Ingredients = () => {
   const { addToast } = useToast()
   const { isShowing, toggle } = useModal()
+  const { showConfirmation } = useConfirmationModal()
+
   const [ingredients, setIngredients] = useState<Ingredient[]>([])
   const [selectedIngredient, setSelectedIngredient] = useState<Ingredient>()
 
@@ -106,6 +109,14 @@ const Ingredients = () => {
 
   const onClickHandler = async (columnName: string, row: Ingredient) => {
     if (columnName === "delete") {
+      const isConfirm = await showConfirmation({
+        type: "danger",
+        title: "Êtes-vous sûr de vouloir supprimer ?",
+        message: "En supprimant cet ingrédient, vous supprimerez également toutes les recettes qui l'utilisent.",
+      })
+      if (!isConfirm) return
+
+      // Delete ingredient if user confirm
       await deleteIngredient(row._id)
       const newIngredients = ingredients.filter(
         (ingredient) => ingredient._id !== row._id,
