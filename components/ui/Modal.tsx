@@ -54,7 +54,7 @@ const Modal = ({
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         as="div"
-        className="fixed inset-0 overflow-hidden bg-black bg-opacity-10 z-40"
+        className="fixed inset-0 overflow-hidden bg-black bg-opacity-10 z-50"
       />
       <Transition.Child
         enter="transition-all transform duration-200 ease-out"
