@@ -15,7 +15,7 @@ import DrinkSlideOver from "../../components/pages/admin/DrinkSlideOver"
 import useModal from "../../hooks/useModal"
 import { useConfirmationModal } from "../../hooks/contexts/useConfirmationModal"
 
-const Drinks = () => {
+const DrinksManagement = () => {
   const { addToast } = useToast()
   const { isShowing, toggle } = useModal()
   const { showConfirmation } = useConfirmationModal()
@@ -213,4 +213,4 @@ const Drinks = () => {
   )
 }
 
-export default Drinks
+export default DrinksManagement

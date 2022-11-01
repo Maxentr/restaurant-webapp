@@ -14,7 +14,7 @@ import IngredientSlideOver from "../../components/pages/admin/IngredientSlideOve
 import useModal from "../../hooks/useModal"
 import { useConfirmationModal } from "../../hooks/contexts/useConfirmationModal"
 
-const Ingredients = () => {
+const IngredientsManagement = () => {
   const { addToast } = useToast()
   const { isShowing, toggle } = useModal()
   const { showConfirmation } = useConfirmationModal()
@@ -185,4 +185,4 @@ const Ingredients = () => {
   )
 }
 
-export default Ingredients
+export default IngredientsManagement
