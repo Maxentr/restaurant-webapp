@@ -46,11 +46,11 @@ const Modal = ({
       />
       <Transition.Child
         enter="transition-all transform duration-200 ease-out"
-        enterFrom="opacity-0 translate-x-1/4"
-        enterTo="opacity-100 translate-x-0"
+        enterFrom="opacity-0 scale-90 translate-y-8"
+        enterTo="opacity-100 scale-100 translate-y-0"
         leave="transition-all transform duration-200 ease-in"
-        leaveFrom="opacity-100 translate-x-0"
-        leaveTo="opacity-0 translate-x-1/4"
+        leaveFrom="opacity-100 scale-100 translate-y-0"
+        leaveTo="opacity-0 scale-90 translate-y-8"
         as="div"
         onClick={toggle}
         className="fixed inset-0 overflow-hidden z-50 flex justify-center items-center"
