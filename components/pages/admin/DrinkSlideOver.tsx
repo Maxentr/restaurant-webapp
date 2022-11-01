@@ -1,5 +1,6 @@
 import { PlusIcon } from "@heroicons/react/20/solid"
 import { useEffect, useReducer, useState } from "react"
+import { useConfirmationModal } from "../../../hooks/contexts/useConfirmationModal"
 import { useToast } from "../../../hooks/contexts/useToast"
 import { addDrink, editDrink } from "../../../services/drink.service"
 import { Drink, DrinkStockSize } from "../../../types/drink.type"
@@ -27,6 +28,8 @@ const DrinkSlideOver = ({
   close,
 }: DrinkSlideOverProps) => {
   const { addToast } = useToast()
+  const { showConfirmation } = useConfirmationModal()
+
   const [formData, dispatch] = useReducer(drinkFormReducer, {
     ...DRINK_INITIAL_STATE,
   })
@@ -36,10 +39,10 @@ const DrinkSlideOver = ({
   )
 
   useEffect(() => {
-    if (drink) {
+    if (drink && isShowing) {
       dispatch({ type: "SET_DRINK", payload: drink })
     }
-  }, [drink])
+  }, [isShowing, drink])
 
   const createSize = () => {
     if (
@@ -53,6 +56,22 @@ const DrinkSlideOver = ({
       })
       setCreateSizeData(CREATE_SIZE_INITIAL_STATE)
     }
+  }
+
+  const handleSizeDeletion = async (index: number) => {
+    const isConfirm = await showConfirmation({
+      type: "danger",
+      title: "Êtes-vous sûr de vouloir supprimer ?",
+      message:
+        "En supprimant cette taille cela peut avoir des conséquences sur les commandes qui l'utilisent.",
+    })
+    if (!isConfirm) return
+    dispatch({
+      type: "REMOVE_SIZE",
+      payload: {
+        sizeIndex: index,
+      },
+    })
   }
 
   const submitDrink = async () => {
@@ -228,14 +247,7 @@ const DrinkSlideOver = ({
                 </div>
               </div>
               <button
-                onClick={() =>
-                  dispatch({
-                    type: "REMOVE_SIZE",
-                    payload: {
-                      sizeIndex: index,
-                    },
-                  })
-                }
+                onClick={() => handleSizeDeletion(index)}
                 className="bg-red-600 px-4 py-2 rounded-md text-white font-medium"
               >
                 Supprimer la taille
