@@ -10,11 +10,11 @@ const routes = [
     name: "Menus",
   },
   {
-    path: "/Dishes",
+    path: "/dishes",
     name: "Plats",
   },
   {
-    path: "/Drinks",
+    path: "/drinks",
     name: "Boissons",
   },
 ]

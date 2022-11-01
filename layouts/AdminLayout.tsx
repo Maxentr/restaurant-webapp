@@ -7,19 +7,19 @@ const routes = [
     name: "Dashboard",
   },
   {
-    path: "/admin/Menus",
+    path: "/admin/menus",
     name: "Menus",
   },
   {
-    path: "/admin/Dishes",
+    path: "/admin/dishes",
     name: "Plats",
   },
   {
-    path: "/admin/Drinks",
+    path: "/admin/drinks",
     name: "Boissons",
   },
   {
-    path: "/admin/Ingredients",
+    path: "/admin/ingredients",
     name: "Ingrédients",
   },
 ]
