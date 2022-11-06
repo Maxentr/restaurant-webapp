@@ -1,26 +1,34 @@
+"use client"
+
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 
 export type NavbarProps = {
+  baseRoute?: string
   routes: {
     path: string
     name: string
   }[]
 }
 
-const Navbar = ({ routes }: NavbarProps) => {
-  const router = useRouter()
+const Navbar = ({ baseRoute, routes }: NavbarProps) => {
+  const pathname = usePathname()
 
   return (
     <div className="w-full flex flex-row gap-4 justify-center mt-10">
-      {routes.map(({ path, name }) => (
-        <div
-          key={path + name}
-          className={router.pathname == path ? "border-b border-gray-900" : ""}
-        >
-          <Link href={path}>{name}</Link>
-        </div>
-      ))}
+      {routes.map(({ path, name }) => {
+        const route =
+          (baseRoute ? `/${baseRoute}` : "") + (path ? `/${path}` : "/")
+
+        return (
+          <div
+            key={path + name}
+            className={pathname == route ? "border-b border-gray-900" : ""}
+          >
+            <Link href={route}>{name}</Link>
+          </div>
+        )
+      })}
     </div>
   )
 }
