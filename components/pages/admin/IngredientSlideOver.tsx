@@ -78,7 +78,7 @@ const IngredientSlideOver = ({
     }
   }
 
-  const SlideOverFooter = () => (
+  const SlideOverFooter = (
     <div className="flex flex-row justify-end items-center">
       <button
         onClick={submitIngredient}
@@ -95,7 +95,7 @@ const IngredientSlideOver = ({
       title={ingredient ? "Modifier l'ingredient" : "Ajouter un ingredient"}
       toggle={toggle}
       isShowing={isShowing}
-      footer={<SlideOverFooter />}
+      footer={SlideOverFooter}
     >
       <div className="flex flex-grow flex-col gap-4">
         <div className="flex flex-col gap-2">

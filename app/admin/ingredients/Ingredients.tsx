@@ -1,34 +1,28 @@
-import { useEffect, useState } from "react"
-import AdminLayout from "../../layouts/AdminLayout"
-import { Ingredient, StockType } from "../../types/ingredient.type"
-import {
-  deleteIngredient,
-  getIngredients,
-} from "../../services/ingredient.service"
+"use client"
+
+import { useState } from "react"
+import { Ingredient, StockType } from "../../../types/ingredient.type"
+import { deleteIngredient } from "../../../services/ingredient.service"
 import RCTable from "rc-table"
 import { PencilIcon } from "@heroicons/react/24/solid"
 import { TrashIcon } from "@heroicons/react/20/solid"
 import { ColumnsType, DefaultRecordType } from "rc-table/lib/interface"
-import { useToast } from "../../hooks/contexts/useToast"
-import IngredientSlideOver from "../../components/pages/admin/IngredientSlideOver"
-import useModal from "../../hooks/useModal"
-import { useConfirmationModal } from "../../hooks/contexts/useConfirmationModal"
+import { useToast } from "../../../hooks/contexts/useToast"
+import IngredientSlideOver from "../../../components/pages/admin/IngredientSlideOver"
+import useModal from "../../../hooks/useModal"
+import { useConfirmationModal } from "../../../hooks/contexts/useConfirmationModal"
+import { useRouter } from "next/navigation"
 
-const IngredientsManagement = () => {
+type Props = {
+  ingredients: Ingredient[]
+}
+const IngredientsManagement = ({ ingredients }: Props) => {
+  const { refresh } = useRouter()
   const { addToast } = useToast()
   const { isShowing, toggle } = useModal()
   const { showConfirmation } = useConfirmationModal()
 
-  const [ingredients, setIngredients] = useState<Ingredient[]>([])
   const [selectedIngredient, setSelectedIngredient] = useState<Ingredient>()
-
-  useEffect(() => {
-    const getAndSetIngredients = async () => {
-      const response = await getIngredients()
-      setIngredients(response)
-    }
-    getAndSetIngredients()
-  }, [])
 
   const columns: ColumnsType<DefaultRecordType> = [
     {
@@ -112,16 +106,18 @@ const IngredientsManagement = () => {
       const isConfirm = await showConfirmation({
         type: "danger",
         title: "Êtes-vous sûr de vouloir supprimer ?",
-        message: "En supprimant cet ingrédient, vous supprimerez également toutes les recettes qui l'utilisent.",
+        message:
+          "En supprimant cet ingrédient, vous supprimerez également toutes les recettes qui l'utilisent.",
       })
       if (!isConfirm) return
 
       // Delete ingredient if user confirm
       await deleteIngredient(row._id)
-      const newIngredients = ingredients.filter(
-        (ingredient) => ingredient._id !== row._id,
-      )
-      setIngredients(newIngredients)
+      refresh()
+      // const newIngredients = ingredients.filter(
+      //   (ingredient) => ingredient._id !== row._id,
+      // )
+      // setIngredients(newIngredients)
 
       addToast({
         title: "Suppression réussie",
@@ -138,50 +134,49 @@ const IngredientsManagement = () => {
     type: "create" | "edit",
     ingredient: Ingredient,
   ) => {
-    if (type === "create") {
-      setIngredients([...ingredients, ingredient])
-    } else if (type === "edit") {
-      const newIngredients = ingredients.map((ing) => {
-        if (ing._id === ingredient._id) {
-          return ingredient
-        }
-        return ing
-      })
-      setIngredients(newIngredients)
-    }
+    // if (type === "create") {
+
+    // } else if (type === "edit") {
+    //   const newIngredients = ingredients.map((ing) => {
+    //     if (ing._id === ingredient._id) {
+    //       return ingredient
+    //     }
+    //     return ing
+    //   })
+    //   setIngredients(newIngredients)
+    // }
+    refresh()
     toggle()
   }
 
   return (
-    <AdminLayout>
-      <div className="flex flex-col items-center justify-center self-stretch w-full mt-8 mb-12">
-        <div className="max-w-7xl">
-          {ingredients.length > 0 && (
-            <RCTable
-              rowKey={(row) => row._id}
-              columns={columns}
-              data={ingredients}
-              className=""
-              rowClassName=""
-            />
-          )}
-          <div className="w-full flex flex-row mt-4">
-            <button
-              className="bg-gray-900 text-white font-bold py-2 px-4 rounded"
-              onClick={createIngredient}
-            >
-              Ajouter un ingrédient
-            </button>
-          </div>
+    <div className="flex flex-col items-center justify-center self-stretch w-full mt-8 mb-12">
+      <div className="max-w-7xl">
+        {ingredients && ingredients.length > 0 && (
+          <RCTable
+            rowKey={(row) => row._id}
+            columns={columns}
+            data={ingredients}
+            className=""
+            rowClassName=""
+          />
+        )}
+        <div className="w-full flex flex-row mt-4">
+          <button
+            className="bg-gray-900 text-white font-bold py-2 px-4 rounded"
+            onClick={createIngredient}
+          >
+            Ajouter un ingrédient
+          </button>
         </div>
-        <IngredientSlideOver
-          isShowing={isShowing}
-          toggle={toggle}
-          ingredient={selectedIngredient}
-          close={handleChangement}
-        />
       </div>
-    </AdminLayout>
+      <IngredientSlideOver
+        isShowing={isShowing}
+        toggle={toggle}
+        ingredient={selectedIngredient}
+        close={handleChangement}
+      />
+    </div>
   )
 }
 

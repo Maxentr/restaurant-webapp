@@ -38,8 +38,26 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
     }
   }
 
+  const SlideOverFooter = (
+    <div className="flex flex-row justify-between items-center">
+      <p className="font-medium">Prix : {totalCost.toFixed(2) + " €"}</p>
+      <button
+        onClick={addDrinkToCart}
+        className="bg-gray-900 active:bg-black text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
+      >
+        <ShoppingCartIcon className="fill-white w-4 h-4" />
+        <p>Commander</p>
+      </button>
+    </div>
+  )
+
   return (
-    <SlideOver title={drink?.name || ""} toggle={toggle} isShowing={isShowing}>
+    <SlideOver
+      title={drink?.name || ""}
+      toggle={toggle}
+      isShowing={isShowing}
+      footer={SlideOverFooter}
+    >
       <div className="flex flex-grow flex-col gap-4">
         <div className="relative w-full h-48 rounded-md overflow-hidden">
           <Image
@@ -72,16 +90,6 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-row justify-between items-center">
-        <p className="font-medium">Prix : {totalCost.toFixed(2) + " €"}</p>
-        <button
-          onClick={addDrinkToCart}
-          className="bg-gray-900 active:bg-black text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
-        >
-          <ShoppingCartIcon className="fill-white w-4 h-4" />
-          <p>Commander</p>
-        </button>
       </div>
     </SlideOver>
   )

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { createContext, useContext, useEffect, useState } from "react"
 
 export type AddCartItem = {
@@ -30,11 +32,6 @@ const CartContext = createContext({} as CartContextInterface)
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([])
   const [total, setTotal] = useState(0)
-
-  useEffect(() => {
-    console.log("cart", cart)
-    console.log("total", total)
-  }, [cart, total])
 
   /**
    * Add an item to the cart

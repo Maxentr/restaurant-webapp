@@ -1,33 +1,29 @@
-import type { NextPage } from "next"
-import { useEffect, useState } from "react"
-import Card, { CardType } from "../components/ui/Card"
-import useModal from "../hooks/useModal"
-import { getDrinks } from "../services/drink.service"
-import { Drink } from "../types/drink.type"
-import GuestTemplate from "../layouts/GuestLayout"
-import DrinkSlideOver from "../components/pages/Drinks/DrinkSlideOver"
+"use client"
 
-const Home: NextPage = () => {
-  const [drinks, setDrinks] = useState<Drink[]>([])
+import { useEffect, useState } from "react"
+import DrinkSlideOver from "../../../components/pages/Drinks/DrinkSlideOver"
+import Card, { CardType } from "../../../components/ui/Card"
+import useModal from "../../../hooks/useModal"
+import { Drink } from "../../../types/drink.type"
+
+type DrinksProps = {
+  drinks: Drink[]
+}
+
+const DrinksPage = ({ drinks }: DrinksProps) => {
   const [cards, setCards] = useState<CardType[]>([])
 
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null)
 
   useEffect(() => {
-    const getAndSetDrinks = async () => {
-      const drinks = await getDrinks()
-      console.log(drinks)
-      setDrinks(drinks)
-      setCards(
-        drinks.map((drink) => ({
-          id: drink._id,
-          title: drink.name,
-          description: drink.description || "pas de description",
-          image: drink.image,
-        })),
-      )
-    }
-    getAndSetDrinks()
+    setCards(
+      drinks.map((drink) => ({
+        id: drink._id,
+        title: drink.name,
+        description: drink.description || "pas de description",
+        image: drink.image,
+      })),
+    )
   }, [])
 
   const { isShowing, toggle } = useModal()
@@ -41,7 +37,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <GuestTemplate>
+    <>
       <div className="flex flex-row flex-wrap justify-center gap-x-6 gap-y-8">
         {cards.map((card, index) => {
           return (
@@ -59,8 +55,8 @@ const Home: NextPage = () => {
         toggle={toggle}
         drink={selectedDrink}
       />
-    </GuestTemplate>
+    </>
   )
 }
 
-export default Home
+export default DrinksPage

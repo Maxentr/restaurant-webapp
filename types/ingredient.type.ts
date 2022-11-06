@@ -10,7 +10,7 @@ export type Ingredient = {
   description?: string
   category: string // Potential future id of categories collection
   stockLeft: number
-  stockType?: StockType
+  stockType: StockType
   price: number
   createdAt: Date
   updatedAt: Date

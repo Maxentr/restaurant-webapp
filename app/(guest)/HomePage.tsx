@@ -1,35 +1,32 @@
-import type { NextPage } from "next"
-import { useEffect, useState } from "react"
-import Card, { CardType } from "../components/ui/Card"
-import MenuSlideOver from "../components/pages/Menus/MenuSlideOver"
-import useModal from "../hooks/useModal"
-import { getMenus } from "../services/menu.service"
-import { Menu } from "../types/menu.type"
-import GuestTemplate from "../layouts/GuestLayout"
+"use client"
 
-const Home: NextPage = () => {
+import { useEffect, useState } from "react"
+import Card, { CardType } from "../../components/ui/Card"
+import MenuSlideOver from "../../components/pages/Menus/MenuSlideOver"
+import useModal from "../../hooks/useModal"
+import { Menu } from "../../types/menu.type"
+
+type HomeProps = {
+  menus: Menu[]
+}
+
+const Home = ({ menus }: HomeProps) => {
   const { isShowing, toggle } = useModal()
 
-  const [menus, setMenus] = useState<Menu[]>([])
   const [cards, setCards] = useState<CardType[]>([])
 
   const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null)
 
   useEffect(() => {
-    const getAndSetMenus = async () => {
-      const menus = await getMenus()
-      setMenus(menus)
-      setCards(
-        menus.map((menu) => ({
-          id: menu._id,
-          title: menu.name,
-          description: menu.description || "pas de description",
-          price: menu.price,
-          image: menu.image,
-        })),
-      )
-    }
-    getAndSetMenus()
+    setCards(
+      menus.map((menu) => ({
+        id: menu._id,
+        title: menu.name,
+        description: menu.description || "pas de description",
+        price: menu.price,
+        image: menu.image,
+      })),
+    )
   }, [])
 
   const handleSlideOverOpening = (id: string) => {
@@ -41,7 +38,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <GuestTemplate>
+    <>
       <div className="flex flex-row flex-wrap justify-center gap-x-6 gap-y-8">
         {cards.map((card, index) => {
           return (
@@ -59,7 +56,7 @@ const Home: NextPage = () => {
         isShowing={isShowing}
         menu={selectedMenu}
       />
-    </GuestTemplate>
+    </>
   )
 }
 

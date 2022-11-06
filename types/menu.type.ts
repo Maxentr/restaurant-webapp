@@ -1,14 +1,23 @@
 import { Dish } from "./dish.type"
 import { Drink } from "./drink.type"
 
-export type MenuDrinkChoice = {
-  size: string
+type MenuChoice = {
+  _id: string
   extraCost?: number
-} & { [k: string]: Drink }
+}
 
-export type MenuDishChoice = {
-  extraCost?: number
-} & { [k: string]: Dish }
+export type MenuDrinkChoice = MenuChoice & {
+  drink: Drink
+  size: string
+}
+
+export type MenuDishChoice = MenuChoice & {
+  dish: Dish
+}
+
+export type MenuAsideChoice = MenuChoice & {
+  aside: Dish
+}
 
 export type Menu = {
   _id: string
@@ -17,7 +26,7 @@ export type Menu = {
   image?: string
   price: number
   dishes: MenuDishChoice[]
-  asides: MenuDishChoice[]
+  asides: MenuAsideChoice[]
   drinks: MenuDrinkChoice[]
   createdAt: Date
   updatedAt: Date

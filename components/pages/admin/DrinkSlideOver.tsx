@@ -16,6 +16,7 @@ export type DrinkSlideOverProps = {
 }
 
 const CREATE_SIZE_INITIAL_STATE: DrinkStockSize = {
+  _id: "",
   name: "",
   price: 0,
   quantity: 0,
@@ -101,7 +102,7 @@ const DrinkSlideOver = ({
     }
   }
 
-  const SlideOverFooter = () => (
+  const SlideOverFooter = (
     <div className="flex flex-row justify-end items-center">
       <button
         onClick={submitDrink}
@@ -118,7 +119,7 @@ const DrinkSlideOver = ({
       title={drink ? "Modifier la boisson" : "Ajouter une boisson"}
       toggle={toggle}
       isShowing={isShowing}
-      footer={<SlideOverFooter />}
+      footer={SlideOverFooter}
     >
       <div className="flex flex-grow flex-col gap-4">
         <div className="flex flex-col gap-2">

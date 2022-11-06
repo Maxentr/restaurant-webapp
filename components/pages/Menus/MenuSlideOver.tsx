@@ -31,7 +31,7 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
     setSelectedDish(menu?.dishes[0].dish._id || "")
     setSelectedDrink(menu?.drinks[0].drink._id || "")
   }, [isShowing, menu?.asides, menu?.dishes, menu?.drinks])
-  
+
   useEffect(() => {
     const dishExtraCost =
       menu?.dishes.filter(({ dish }) => dish._id === selectedDish)[0]
@@ -51,7 +51,6 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDish, selectedAside, selectedDrink])
 
-
   const addMenuToCart = () => {
     if (!selectedAside || !selectedDish || !selectedDrink) return
     if (menu) {
@@ -70,8 +69,26 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
     }
   }
 
+  const SlideOverFooter = (
+    <div className="flex flex-row justify-between items-center">
+      <p className="font-medium">Prix : {totalCost.toFixed(2) + " €"}</p>
+      <button
+        onClick={addMenuToCart}
+        className="bg-gray-900 active:bg-black text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
+      >
+        <ShoppingCartIcon className="fill-white w-4 h-4" />
+        <p>Commander</p>
+      </button>
+    </div>
+  )
+
   return (
-    <SlideOver title={menu?.name || ""} toggle={toggle} isShowing={isShowing}>
+    <SlideOver
+      title={menu?.name || ""}
+      toggle={toggle}
+      isShowing={isShowing}
+      footer={SlideOverFooter}
+    >
       <div className="flex flex-grow flex-col gap-4">
         <div className="relative w-full h-48 rounded-md overflow-hidden">
           <Image
@@ -150,16 +167,6 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-row justify-between items-center">
-        <p className="font-medium">Prix : {totalCost.toFixed(2) + " €"}</p>
-        <button
-          onClick={addMenuToCart}
-          className="bg-gray-900 active:bg-black text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
-        >
-          <ShoppingCartIcon className="fill-white w-4 h-4" />
-          <p>Commander</p>
-        </button>
       </div>
     </SlideOver>
   )

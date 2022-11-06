@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+"use client"
+
 import React, { useContext, useRef, useState } from "react"
 import Modal, { ModalType } from "../../components/ui/Modal"
 import useModal from "../useModal"
