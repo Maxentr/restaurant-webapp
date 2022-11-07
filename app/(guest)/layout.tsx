@@ -1,6 +1,7 @@
 "use client"
 
 import { ShoppingCartIcon } from "@heroicons/react/20/solid"
+import { ReactNode } from "react"
 import Navbar from "../../components/ui/Navbar"
 import { useCart } from "../../hooks/contexts/useCart"
 import { useToast } from "../../hooks/contexts/useToast"
@@ -21,7 +22,7 @@ const routes = [
 ]
 
 type GuestLayoutProps = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const GuestLayout = ({ children }: GuestLayoutProps) => {
