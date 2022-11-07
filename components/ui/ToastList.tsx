@@ -28,7 +28,7 @@ const ToastList = () => {
   }
 
   const content = (
-    <div className="fixed top-4 right-4 z-[100]">
+    <div className="fixed top-4 right-4 z-[100] w-fit h-fit">
       <div className="flex flex-col gap-4">
         {toasts.map(({ id, show, type, title, message }) => (
           <Transition
