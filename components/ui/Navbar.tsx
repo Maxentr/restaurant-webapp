@@ -17,8 +17,9 @@ const Navbar = ({ baseRoute, routes }: NavbarProps) => {
   return (
     <div className="w-full flex flex-row gap-4 justify-center mt-10">
       {routes.map(({ path, name }) => {
-        const route =
-          (baseRoute ? `/${baseRoute}` : "") + (path ? `/${path}` : "/")
+        let route =
+          (baseRoute ? `/${baseRoute}` : "") + (path ? `/${path}` : "")
+        if (!route) route = "/"
 
         return (
           <div
