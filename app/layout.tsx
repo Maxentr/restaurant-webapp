@@ -2,6 +2,7 @@ import "../styles/globals.css"
 import CartProvider from "../hooks/contexts/useCart"
 import ToastProvider from "../hooks/contexts/useToast"
 import ConfirmationModalProvider from "../hooks/contexts/useConfirmationModal"
+import AuthProvider from "../hooks/contexts/useAuth"
 import { ReactNode } from "react"
 
 function RootLayout({ children }: { children: ReactNode }) {
@@ -15,11 +16,13 @@ function RootLayout({ children }: { children: ReactNode }) {
         <title>Restaurant</title>
       </head>
       <body>
-        <ToastProvider>
-          <CartProvider>
-            <ConfirmationModalProvider>{children}</ConfirmationModalProvider>
-          </CartProvider>
-        </ToastProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <CartProvider>
+              <ConfirmationModalProvider>{children}</ConfirmationModalProvider>
+            </CartProvider>
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   )
