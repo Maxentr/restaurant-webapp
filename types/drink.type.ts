@@ -11,7 +11,7 @@ export type Drink = {
   description: string
   image?: string
   stockLeft: number
-  size: DrinkStockSize[]
+  sizes: DrinkStockSize[]
   createdAt: Date
   updatedAt: Date
 }
@@ -27,5 +27,5 @@ export type CreateDrink = {
   description: string
   image?: string
   stockLeft: number
-  size: DrinkStockSize[]
+  sizes: DrinkStockSize[]
 }

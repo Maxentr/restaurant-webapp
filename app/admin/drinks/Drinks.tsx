@@ -90,7 +90,7 @@ const DrinksManagement = ({ drinksReponse }: Props) => {
     },
     {
       title: "Prix",
-      render: (size: DrinkStockSize) => `${size.price} €`,
+      render: (sizes: DrinkStockSize) => `${sizes.price} €`,
       key: "price",
       className: "w-2/3 text-right px-4 py-2",
     },
@@ -178,7 +178,7 @@ const DrinksManagement = ({ drinksReponse }: Props) => {
                   <RCTable
                     rowKey={(row) => row._id}
                     columns={expandColumns}
-                    data={row.size}
+                    data={row.sizes}
                     className="w-full"
                     rowClassName="w-full border-t border-gray-200"
                   />

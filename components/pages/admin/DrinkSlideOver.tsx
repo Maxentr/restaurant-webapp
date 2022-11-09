@@ -181,7 +181,7 @@ const DrinkSlideOver = ({
         </div>
         <div className="flex flex-col mt-4 gap-2">
           <p>Tailles :</p>
-          {formData.size.map((size: any, index: number) => (
+          {formData.sizes.map((size: any, index: number) => (
             <div className="flex flex-col gap-1" key={index}>
               <div>
                 <label htmlFor={`size-name-${index}`}>Nom de la taille :</label>

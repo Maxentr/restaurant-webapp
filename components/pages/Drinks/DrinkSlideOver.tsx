@@ -20,7 +20,7 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
 
   useEffect(() => {
     const price =
-      drink?.size.filter((size) => size._id === selectedSize)[0]?.price || 0
+      drink?.sizes.filter((size) => size._id === selectedSize)[0]?.price || 0
     setTotalCost(price)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSize])
@@ -62,7 +62,7 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
         <div className="relative w-full h-48 rounded-md overflow-hidden">
           <Image
             src={drink?.image || ""}
-            alt={drink?.name}
+            alt={drink?.name || ""}
             layout="fill"
             objectFit="contain"
           />
@@ -73,7 +73,7 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <p className="font-medium">Boissons :</p>
-              {drink?.size.map((size) => (
+              {drink?.sizes.map((size) => (
                 <div
                   key={JSON.stringify(size)}
                   className="flex flex-col gap-2 w-full"

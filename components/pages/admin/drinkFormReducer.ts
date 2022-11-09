@@ -6,7 +6,7 @@ export const DRINK_INITIAL_STATE: Drink = {
   description: "",
   image: "",
   stockLeft: 0,
-  size: [],
+  sizes: [],
   createdAt: new Date(),
   updatedAt: new Date(),
 }
@@ -60,23 +60,23 @@ export const drinkFormReducer = (state: Drink, action: ActionReducer) => {
     case "ADD_SIZE":
       return {
         ...state,
-        size: [...state.size, payload],
+        sizes: [...state.sizes, payload],
       }
     case "CHANGE_SIZE":
       return {
         ...state,
-        size: [
-          ...state.size.slice(0, action.sizeIndex),
-          { ...state.size[action.sizeIndex], [payload.name]: payload.value },
-          ...state.size.slice(action.sizeIndex + 1),
+        sizes: [
+          ...state.sizes.slice(0, action.sizeIndex),
+          { ...state.sizes[action.sizeIndex], [payload.name]: payload.value },
+          ...state.sizes.slice(action.sizeIndex + 1),
         ],
       }
     case "REMOVE_SIZE":
       return {
         ...state,
-        size: [
-          ...state.size.slice(0, action.payload.sizeIndex),
-          ...state.size.slice(action.payload.sizeIndex + 1),
+        sizes: [
+          ...state.sizes.slice(0, action.payload.sizeIndex),
+          ...state.sizes.slice(action.payload.sizeIndex + 1),
         ],
       }
     case "SET_DRINK":
