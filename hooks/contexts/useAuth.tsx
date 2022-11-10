@@ -10,10 +10,11 @@ import jwt_decode from "jwt-decode"
 
 type AuthContextInterface = {
   connectedUser: User | null
-  accessToken: string | null
+  getAccessToken: () => string | null
   refreshConnectedUser: () => Promise<void>
   // eslint-disable-next-line no-unused-vars
-  newConnectedUser: (user: User, token: string) => void
+  newAcessToken: (token: string) => void
+  clearAccessToken: () => void
   logout: () => Promise<void>
 }
 
@@ -21,33 +22,46 @@ const AuthContext = createContext({} as AuthContextInterface)
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [connectedUser, setUser] = useState<User | null>(null)
-  const [accessToken, setAccessToken] = useState<string | null>(null)
 
-  const newConnectedUser = (user: User, token: string) => {
-    setUser(user)
-    setAccessToken(token)
+  const getAccessToken = () => {
+    const accessToken = localStorage.getItem("accessToken")
+    return accessToken
+  }
+
+  const decodeAndSetUser = (token: string) => {
+    const decodedToken = jwt_decode(token) as User
+    setUser(decodedToken)
+  }
+
+  const newAcessToken = (accessToken: string) => {
+    localStorage.setItem("accessToken", accessToken)
+    decodeAndSetUser(accessToken)
   }
 
   const refreshConnectedUser = async () => {
     const accessToken = await refreshToken()
-    setAccessToken(accessToken)
-    const decoded: User = jwt_decode(accessToken)
-    setUser(decoded)
+    localStorage.setItem("accessToken", accessToken)
+    decodeAndSetUser(accessToken)
+  }
+
+  const clearAccessToken = () => {
+    localStorage.removeItem("accessToken")
   }
 
   const logout = async () => {
     await requestLogout()
     setUser(null)
-    setAccessToken(null)
+    localStorage.removeItem("accessToken")
   }
 
   return (
     <AuthContext.Provider
       value={{
         connectedUser,
-        accessToken,
-        newConnectedUser,
+        getAccessToken,
+        newAcessToken,
         refreshConnectedUser,
+        clearAccessToken,
         logout,
       }}
     >
