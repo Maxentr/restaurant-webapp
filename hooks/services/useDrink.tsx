@@ -15,7 +15,7 @@ const useDrink = (drinkId?: string, sizeId?: string) => {
   }, [drinkId])
 
   const getDrinkSize = (drink: Drink, sizeId: string) => {
-    const result = drink.size.filter((size) => size._id === sizeId)
+    const result = drink.sizes.filter((size) => size._id === sizeId)
     return result[0]
   }
 
