@@ -49,7 +49,7 @@ const GuestLayout = ({ children }: GuestLayoutProps) => {
   }
 
   return (
-    <div className="w-full h-full bg-gray-50">
+    <div className="absolute inset-0 w-full h-full bg-gray-50">
       <nav className="sticky top-0 h-16 flex flex-grow flex-row items-center justify-between bg-gray-900 px-4">
         <h1 className="text-white font-medium text-xl">Restauration</h1>
         <div
@@ -60,7 +60,7 @@ const GuestLayout = ({ children }: GuestLayoutProps) => {
           <p className="text-white font-medium">Panier</p>
         </div>
       </nav>
-      <div className="w-full flex flex-col gap-8 bg-gray-50">
+      <div className="w-full h-[calc(100%-64px)] flex flex-col gap-8 bg-gray-50">
         <Navbar routes={routes} />
         {children}
       </div>
