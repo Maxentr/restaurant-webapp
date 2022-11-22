@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react"
+import { ObjectId } from "../../types/common.type"
 import { Menu } from "../../types/menu.type"
-import { getMenu } from "../../services/menu.service"
 
-const useMenu = (menuId: string) => {
-  const [menu, setMenu] = useState<Menu | null>(null)
+const useMenu = () => {
+  const getMenuChoices = (menu: Menu, choicesId: ObjectId[]) => {
+    const dish = menu.dishes.find((dish) => choicesId.includes(dish.dish._id))
+    const aside = menu.asides.find((aside) =>
+      choicesId.includes(aside.aside._id),
+    )
+    const drink = menu.drinks.find((drink) =>
+      choicesId.includes(drink.drink._id),
+    )
 
-  useEffect(() => {
-    const getAndSetMenu = async () => {
-      const data = await getMenu(menuId)
-      setMenu(data)
-    }
-    getAndSetMenu()
-  }, [menuId])
+    return { dish, aside, drink }
+  }
 
-  return { menu }
+  return { getMenuChoices }
 }
 
 export default useMenu
