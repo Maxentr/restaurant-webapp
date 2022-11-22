@@ -6,27 +6,29 @@ export enum OrderItemType {
   "DISH",
 }
 
+export type OrderItemTypeString = keyof typeof OrderItemType
+
 type OrderItemDefault = {
-  _id: string
-  type: OrderItemType
+  _id?: ObjectId
+  type: OrderItemType | OrderItemTypeString
   quantity: number
   totalPrice: number
 }
 
 export type OrderItemMenu = OrderItemDefault & {
   menu: ObjectId
-  type: OrderItemType.MENU
+  type: OrderItemType.MENU | "MENU"
   choicesId: ObjectId[]
 }
 
 export type OrderItemDish = OrderItemDefault & {
   dish: ObjectId
-  type: OrderItemType.DISH
+  type: OrderItemType.DISH | "DISH"
 }
 
 export type OrderItemDrink = OrderItemDefault & {
   drink: ObjectId
-  type: OrderItemType.DRINK
+  type: OrderItemType.DRINK | "DRINK"
   sizeId: ObjectId
 }
 
