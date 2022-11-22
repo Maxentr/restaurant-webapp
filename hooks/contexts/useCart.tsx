@@ -20,7 +20,6 @@ type CartContextInterface = Omit<
 > & {
   // eslint-disable-next-line no-unused-vars
   addToCart: (newItem: AddCartItem) => void
-  getOrder: () => Omit<Order, "_id" | "createdAt">
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (id: string) => void
   cartItems: CartItem[]
@@ -105,18 +104,9 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setTotal(+newTotal)
   }
 
-  const getOrder = () => {
-    const order: Omit<Order, "_id" | "createdAt"> = {
-      items: cart,
-      total: total,
-      customer: "ID_CUSTOMER",
-    }
-    return order
-  }
-
   return (
     <CartContext.Provider
-      value={{ addToCart, getOrder, removeFromCart, cartItems: cart, total }}
+      value={{ addToCart, removeFromCart, cartItems: cart, total }}
     >
       {children}
     </CartContext.Provider>
