@@ -95,8 +95,9 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
           <Image
             src={menu?.image || ""}
             alt={menu?.name || ""}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-contain"
+            sizes="100%"
           />
         </div>
         <p>{menu?.description}</p>

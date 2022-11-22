@@ -70,8 +70,9 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
           <Image
             src={drink?.image || ""}
             alt={drink?.name || ""}
-            layout="fill"
-            objectFit="contain"
+            fill
+            className="object-contain"
+            sizes="100%"
           />
         </div>
         <p>{drink?.description}</p>

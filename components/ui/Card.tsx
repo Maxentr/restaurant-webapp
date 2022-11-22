@@ -7,6 +7,9 @@ export type CardType = {
   description: string
   price?: number
   image?: string
+  imageOptions?: {
+    contain?: boolean
+  }
 }
 
 export type CardProps = CardType & {
@@ -23,6 +26,7 @@ const Card = ({
   description,
   price,
   image,
+  imageOptions,
   onCardClick,
   onButtonClick,
   buttonLabel,
@@ -41,7 +45,10 @@ const Card = ({
             src={image}
             alt={title}
             fill
-            className="w-full h-auto rounded-md"
+            className={
+              "h-screen w-fit rounded-md" +
+              (imageOptions?.contain ? " object-contain" : " object-cover")
+            }
             sizes="100%"
           />
         </div>
