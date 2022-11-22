@@ -44,7 +44,10 @@ const DrinksPage = ({ drinks }: DrinksProps) => {
             <Card
               key={index + JSON.stringify(card)}
               {...card}
-              buttonLabel="Commander"
+              buttonLabel="Voir les options"
+              imageOptions={{
+                contain: true,
+              }}
               onButtonClick={handleSlideOverOpening}
             />
           )

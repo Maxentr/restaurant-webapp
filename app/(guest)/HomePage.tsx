@@ -45,7 +45,7 @@ const Home = ({ menus }: HomeProps) => {
             <Card
               key={index + JSON.stringify(card)}
               {...card}
-              buttonLabel="Commander"
+              buttonLabel="Voir les options"
               onButtonClick={handleSlideOverOpening}
             />
           )
