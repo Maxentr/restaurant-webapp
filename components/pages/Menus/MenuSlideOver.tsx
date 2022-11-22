@@ -55,10 +55,11 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
     if (!selectedAside || !selectedDish || !selectedDrink) return
     if (menu) {
       addToCart({
-        id: menu._id,
-        type: "menu",
+        menu: menu._id,
+        type: "MENU",
         totalPrice: totalCost,
-        elementsId: [selectedDish, selectedAside, selectedDrink],
+        choicesId: [selectedDish, selectedAside, selectedDrink],
+        quantity: 1,
       })
       addToast({
         title: "Menu ajouté au panier",
@@ -93,7 +94,7 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
         <div className="relative w-full h-48 rounded-md overflow-hidden">
           <Image
             src={menu?.image || ""}
-            alt={menu?.name}
+            alt={menu?.name || ""}
             layout="fill"
             objectFit="cover"
           />
@@ -104,21 +105,25 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <p className="font-medium">Plats :</p>
-              {menu?.dishes.map(({ dish, extraCost }, index) => (
-                <div
-                  key={JSON.stringify(dish)}
-                  className="flex flex-col gap-2 w-full"
-                >
-                  <Radio
-                    onSelected={(ids) => setSelectedDish(ids[0])}
-                    returnValueOnSelected={[dish._id]}
-                    selected={index === 0}
-                    name={"dish"}
-                    id={dish._id}
-                    label={dish.name + (extraCost ? ` (+${extraCost} €)` : "")}
-                  />
-                </div>
-              ))}
+              {menu?.dishes.map(({ dish, extraCost }, index) => {
+                return (
+                  <div
+                    key={JSON.stringify(dish)}
+                    className="flex flex-col gap-2 w-full"
+                  >
+                    <Radio
+                      onSelected={(ids) => setSelectedDish(ids[0])}
+                      returnValueOnSelected={[dish._id]}
+                      selected={index === 0}
+                      name={"dish"}
+                      id={dish._id}
+                      label={
+                        dish.name + (extraCost ? ` (+${extraCost} €)` : "")
+                      }
+                    />
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className="flex flex-col gap-4">
@@ -158,7 +163,7 @@ const MenuSlideOver = ({ toggle, isShowing, menu }: MenuSlideOverProps) => {
                     label={
                       drink.name +
                       " " +
-                      (drink.size ? getDrinkSize(drink, size).name : "") +
+                      (drink.sizes ? getDrinkSize(drink, size).name : "") +
                       (extraCost ? ` (+${extraCost} €)` : "")
                     }
                   />

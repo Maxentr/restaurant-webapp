@@ -5,6 +5,7 @@ import { Drink } from "../../../types/drink.type"
 import SlideOver from "../../ui/SlideOver"
 import Radio from "../../ui/Radio"
 import { useCart } from "../../../hooks/contexts/useCart"
+import { OrderItemType } from "../../../types/order.type"
 
 export type DrinkSlideOverProps = {
   toggle: () => void
@@ -29,10 +30,11 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
     if (!selectedSize) return
     if (drink) {
       addToCart({
-        id: drink._id,
-        type: "drink",
+        drink: drink._id,
+        type: OrderItemType.DRINK,
         totalPrice: totalCost,
-        elementsId: [selectedSize],
+        quantity: 1,
+        sizeId: selectedSize,
       })
       toggle()
     }
