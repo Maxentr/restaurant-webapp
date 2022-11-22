@@ -1,10 +1,9 @@
 "use client"
 
-import { ShoppingCartIcon } from "@heroicons/react/20/solid"
 import { ReactNode } from "react"
+import GuestHeader from "../../components/pages/GuestHeader"
+import Header from "../../components/ui/Header"
 import Navbar from "../../components/ui/Navbar"
-import { useCart } from "../../hooks/contexts/useCart"
-import { useToast } from "../../hooks/contexts/useToast"
 
 const routes = [
   {
@@ -26,45 +25,13 @@ type GuestLayoutProps = {
 }
 
 const GuestLayout = ({ children }: GuestLayoutProps) => {
-  const { addToast } = useToast()
-  const { total, cartItems, getOrder } = useCart()
-
-  const handleShoppingCart = () => {
-    addToast({
-      title: "Montant du panier",
-      message: `${total} €`,
-      type: "info",
-      duration: 8000,
-    })
-    console.log(getOrder())
-
-    cartItems.map((item, index) => {
-      addToast({
-        title: "Item: " + index,
-        message: `${JSON.stringify(item)}`,
-        type: "info",
-        duration: 8000,
-      })
-    })
-  }
-
   return (
-    <div className="absolute inset-0 w-full h-full bg-gray-50">
-      <nav className="sticky top-0 h-16 flex flex-grow flex-row items-center justify-between bg-gray-900 px-4">
-        <h1 className="text-white font-medium text-xl">Restauration</h1>
-        <div
-          onClick={handleShoppingCart}
-          className="flex flex-row gap-2 items-center cursor-pointer"
-        >
-          <ShoppingCartIcon className="fill-white w-4 h-4" />
-          <p className="text-white font-medium">Panier</p>
-        </div>
-      </nav>
-      <div className="w-full h-[calc(100%-64px)] flex flex-col gap-8 bg-gray-50">
+    <Header content={GuestHeader}>
+      <>
         <Navbar routes={routes} />
         {children}
-      </div>
-    </div>
+      </>
+    </Header>
   )
 }
 

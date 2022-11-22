@@ -1,6 +1,5 @@
 "use client"
 
-import { HomeIcon } from "@heroicons/react/20/solid"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { useAuth } from "../../hooks/contexts/useAuth"
@@ -36,42 +35,29 @@ const Login = () => {
   }
 
   return (
-    <div className="w-full h-full bg-gray-50">
-      <nav className="sticky top-0 h-16 flex flex-grow flex-row items-center justify-between bg-gray-900 px-4">
-        <h1 className="text-white font-medium text-xl">Restauration</h1>
-        <div
-          onClick={() => router.replace("/")}
-          className="flex flex-row gap-2 items-center cursor-pointer"
-        >
-          <HomeIcon className="fill-white w-5 h-5" />
-          <p className="text-white font-medium">
-            Retourner à la page d&apos;accueil
-          </p>
-        </div>
-      </nav>
-      <div className="flex flex-col flex-1 h-[calc(100%-64px)] justify-center items-center gap-8 bg-gray-50">
-        <h1 className="text-3xl font-medium">Connexion</h1>
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-96 h-12 rounded-md border-2 border-gray-300 focus:outline-none focus:border-gray-900 px-4"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          className="w-96 h-12 rounded-md border-2 border-gray-300 focus:outline-none focus:border-gray-900 px-4"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          className="bg-gray-900 text-white font-bold py-2 px-4 rounded"
-          onClick={handleConnection}
-        >
-          Se connecter
-        </button>
-      </div>
+    // The absolute div under is temporary (bug: https://github.com/vercel/next.js/discussions/41745#discussioncomment-3973420)
+    <div className="absolute top-16 left-0 right-0 bottom-0 flex flex-col w-full h-[calc(100%-64px)] justify-center items-center gap-8 bg-gray-50">
+      <h1 className="text-3xl font-medium">Connexion</h1>
+      <input
+        type="email"
+        placeholder="Email"
+        className="w-96 h-12 rounded-md border-2 border-gray-300 focus:outline-none focus:border-gray-900 px-4"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Mot de passe"
+        className="w-96 h-12 rounded-md border-2 border-gray-300 focus:outline-none focus:border-gray-900 px-4"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button
+        className="bg-gray-900 text-white font-bold py-2 px-4 rounded"
+        onClick={handleConnection}
+      >
+        Se connecter
+      </button>
     </div>
   )
 }
