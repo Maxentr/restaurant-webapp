@@ -27,7 +27,7 @@ type GuestLayoutProps = {
 
 const GuestLayout = ({ children }: GuestLayoutProps) => {
   const { addToast } = useToast()
-  const { total, cart } = useCart()
+  const { total, cartItems, getOrder } = useCart()
 
   const handleShoppingCart = () => {
     addToast({
@@ -36,8 +36,9 @@ const GuestLayout = ({ children }: GuestLayoutProps) => {
       type: "info",
       duration: 8000,
     })
+    console.log(getOrder())
 
-    cart.map((item, index) => {
+    cartItems.map((item, index) => {
       addToast({
         title: "Item: " + index,
         message: `${JSON.stringify(item)}`,

@@ -1,30 +1,29 @@
 "use client"
 
-import React, { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
+import {
+  Order,
+  OrderItem,
+  OrderItemDish,
+  OrderItemDrink,
+  OrderItemMenu,
+  OrderItemType,
+} from "../../types/order.type"
 
-export type AddCartItem = {
-  id: string // id of the item
-  type: "menu" | "drink" | "dish" // type of the item
-  totalPrice: number
-  elementsId?: string[]
-  quantity?: number
-}
+type AddCartItem = OrderItemMenu | OrderItemDish | OrderItemDrink
 
-export type CartItem = {
-  id: string // id of the item
-  type: "menu" | "drink" | "dish" // type of the item
-  elementsId?: string[]
-  quantity: number
-  totalPrice: number
-}
+type CartItem = OrderItem
 
-type CartContextInterface = {
+type CartContextInterface = Omit<
+  Order,
+  "_id" | "customer" | "items" | "createdAt"
+> & {
   // eslint-disable-next-line no-unused-vars
-  addToCart: (item: AddCartItem) => void
+  addToCart: (newItem: OrderItemMenu | OrderItemDish | OrderItemDrink) => void
+  getOrder: () => Omit<Order, "_id" | "createdAt">
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (id: string) => void
-  cart: CartItem[]
-  total: number
+  cartItems: CartItem[]
 }
 
 const CartContext = createContext({} as CartContextInterface)
@@ -36,44 +35,48 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   /**
    * Add an item to the cart
    *
-   * @param {string} item.id - ObjectId from MongoDB of the item
-   * @param {"menu" | "drink" | "dish"} item.type - Type of the item
-   * @param {number} item.totalPrice - Price of the item
-   * @optional @param {number} item.quantity - Quantity of the item
-   * @optional @param {string[]} item.elementsId - Array of ObjectId from MongoDB of the elements of the item
+   * @param {AddCartItem} newItem - The item to add to the cart
    * @returns void
    *
    * @beta
    */
-  const addToCart = ({
-    id,
-    type,
-    totalPrice,
-    elementsId,
-    quantity,
-  }: AddCartItem): void => {
-    // Check if an item with the same id and elementsId is the same in the cart
-    const itemIndex = cart.findIndex(
-      (item) =>
-        item.id === id &&
-        item.type === type &&
-        JSON.stringify(item.elementsId) === JSON.stringify(elementsId),
-    )
+  function addToCart(newItem: AddCartItem): void {
+    let itemIndex
+    // Check the item is already in the cart
+    if (newItem.type === OrderItemType.MENU) {
+      // Check for the menu
+      itemIndex = cart.findIndex(
+        (item) =>
+          item._id === newItem._id &&
+          item.type === newItem.type &&
+          JSON.stringify(item.choicesId) === JSON.stringify(newItem.choicesId),
+      )
+    } else if (newItem.type === OrderItemType.DISH) {
+      // Check for the dish
+      itemIndex = cart.findIndex(
+        (item) => item._id === newItem._id && item.type === newItem.type,
+      )
+    } else if (newItem.type === OrderItemType.DRINK) {
+      // Check for the drink
+      itemIndex = cart.findIndex(
+        (item) =>
+          item._id === newItem._id &&
+          item.type === newItem.type &&
+          item.sizeId === newItem.sizeId,
+      )
+    }
 
     // If the item is already in the cart, update the quantity
-    if (itemIndex !== -1) {
+    if (itemIndex && itemIndex !== -1) {
       const newCart = [...cart]
-      newCart[itemIndex].quantity += quantity || 1
+      newCart[itemIndex].quantity += newItem.quantity || 1
       setCart(newCart)
-      setTotal(total + totalPrice)
+      setTotal(total + newItem.totalPrice)
       return
     }
 
     // If the item is not in the cart, add it
-    const newCart = [
-      ...cart,
-      { id, type, elementsId, totalPrice, quantity: quantity || 1 },
-    ]
+    const newCart = [...cart, { ...newItem, quantity: 1 }]
     setCart(newCart)
     refreshTotal(newCart)
   }
@@ -81,13 +84,13 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   /**
    * Remove an item to the cart
    *
-   * @param {string} id - ObjectId from MongoDB of the item
+   * @param {ObjectId} id - ObjectId from MongoDB of the item
    * @returns void
    *
    * @beta
    */
   const removeFromCart = (id: string): void => {
-    const newCart = cart.filter((item) => item.id !== id)
+    const newCart = cart.filter((item) => item._id !== id)
     setCart(newCart)
     refreshTotal(newCart)
   }
@@ -97,12 +100,24 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const newTotal = Number(
       newCart.reduce((acc, item) => acc + item.totalPrice * item.quantity, 0),
     ).toFixed(2)
+    console.log("newTotal", newTotal)
 
     setTotal(+newTotal)
   }
 
+  const getOrder = () => {
+    const order: Omit<Order, "_id" | "createdAt"> = {
+      items: cart,
+      total: total,
+      customer: "ID_CUSTOMER",
+    }
+    return order
+  }
+
   return (
-    <CartContext.Provider value={{ addToCart, removeFromCart, cart, total }}>
+    <CartContext.Provider
+      value={{ addToCart, getOrder, removeFromCart, cartItems: cart, total }}
+    >
       {children}
     </CartContext.Provider>
   )
