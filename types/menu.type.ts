@@ -1,8 +1,9 @@
+import { ObjectId } from "./common.type"
 import { Dish } from "./dish.type"
 import { Drink } from "./drink.type"
 
 type MenuChoice = {
-  _id: string
+  _id: ObjectId
   extraCost?: number
 }
 
@@ -20,7 +21,7 @@ export type MenuAsideChoice = MenuChoice & {
 }
 
 export type Menu = {
-  _id: string
+  _id: ObjectId
   name: string
   description: string
   image?: string

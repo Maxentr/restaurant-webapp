@@ -1,10 +1,12 @@
+import { ObjectId } from "./common.type"
+
 export enum Role {
   "ADMIN",
   "CUSTOMER",
 }
 
 export type User = {
-  _id: string
+  _id: ObjectId
   name: string
   email: string
   password: string

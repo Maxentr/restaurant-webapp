@@ -1,11 +1,13 @@
+import { ObjectId } from "./common.type"
+
 export enum StockType {
-  LITERS = "LITERS",
-  KILOGRAMS = "KILOGRAMS",
-  UNITS = "UNITS",
+  "LITERS",
+  "KILOGRAMS",
+  "UNITS",
 }
 
 export type Ingredient = {
-  _id: string
+  _id: ObjectId
   name: string
   description?: string
   category: string // Potential future id of categories collection

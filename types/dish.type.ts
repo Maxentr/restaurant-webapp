@@ -1,11 +1,14 @@
+import { ObjectId } from "./common.type"
+import { Ingredient } from "./ingredient.type"
+
 export type DishIngredient = {
-  _id: string
-  id: string
+  _id: ObjectId
+  ingredient: string | Ingredient
   quantity: number
 }
 
 export type Dish = {
-  _id: string
+  _id: ObjectId
   name: string
   description: string
   price: number
