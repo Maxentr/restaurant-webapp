@@ -19,6 +19,11 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
   const [selectedSize, setSelectedSize] = useState("")
   const [totalCost, setTotalCost] = useState(0)
 
+  // Default values
+  useEffect(() => {
+    setSelectedSize(drink?.sizes[0]._id || "")
+  }, [isShowing, drink?.sizes])
+
   useEffect(() => {
     const price =
       drink?.sizes.filter((size) => size._id === selectedSize)[0]?.price || 0
@@ -83,6 +88,7 @@ const DrinkSlideOver = ({ toggle, isShowing, drink }: DrinkSlideOverProps) => {
                   <Radio
                     onSelected={(ids) => setSelectedSize(ids[0])}
                     returnValueOnSelected={[size._id]}
+                    selected={selectedSize === size._id}
                     name={"drink"}
                     id={size._id}
                     label={`${drink.name} (${size.name})`}
