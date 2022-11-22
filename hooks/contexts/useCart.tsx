@@ -19,7 +19,7 @@ type CartContextInterface = Omit<
   "_id" | "customer" | "items" | "createdAt"
 > & {
   // eslint-disable-next-line no-unused-vars
-  addToCart: (newItem: OrderItemMenu | OrderItemDish | OrderItemDrink) => void
+  addToCart: (newItem: AddCartItem) => void
   getOrder: () => Omit<Order, "_id" | "createdAt">
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (id: string) => void
@@ -41,27 +41,28 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
    * @beta
    */
   function addToCart(newItem: AddCartItem): void {
-    let itemIndex
+    let itemIndex: number | undefined
     // Check the item is already in the cart
     if (newItem.type === OrderItemType.MENU) {
       // Check for the menu
       itemIndex = cart.findIndex(
         (item) =>
-          item._id === newItem._id &&
-          item.type === newItem.type &&
+          item.type === OrderItemType.MENU &&
+          item.menu === newItem.menu &&
           JSON.stringify(item.choicesId) === JSON.stringify(newItem.choicesId),
       )
     } else if (newItem.type === OrderItemType.DISH) {
       // Check for the dish
       itemIndex = cart.findIndex(
-        (item) => item._id === newItem._id && item.type === newItem.type,
+        (item) =>
+          item.type === OrderItemType.DISH && item.dish === newItem.dish,
       )
     } else if (newItem.type === OrderItemType.DRINK) {
       // Check for the drink
       itemIndex = cart.findIndex(
         (item) =>
-          item._id === newItem._id &&
-          item.type === newItem.type &&
+          item.type === OrderItemType.DRINK &&
+          item.drink === newItem.drink &&
           item.sizeId === newItem.sizeId,
       )
     }
@@ -72,13 +73,12 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
       newCart[itemIndex].quantity += newItem.quantity || 1
       setCart(newCart)
       setTotal(total + newItem.totalPrice)
-      return
+    } else {
+      // If the item is not in the cart, add it
+      const newCart = [...cart, { ...newItem, quantity: 1 }]
+      setCart(newCart)
+      refreshTotal(newCart)
     }
-
-    // If the item is not in the cart, add it
-    const newCart = [...cart, { ...newItem, quantity: 1 }]
-    setCart(newCart)
-    refreshTotal(newCart)
   }
 
   /**
