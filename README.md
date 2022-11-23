@@ -4,23 +4,23 @@ This is a [Next.js](https://nextjs.org/) project used for a restaurant app.
 
 ### ADMIN
 
-[ ] - Dishes CRUD
-[ ] - Menu CRUD
+- [ ] Dishes CRUD
+- [ ] Menu CRUD
 
 ### USER
 
-[X] - Cart page
-[ ] - Filter dish by category
-[ ] - Add delete item from cart
-[ ] - Add update quantity item from cart
-[ ] - Add checkout
-[ ] - Add order history
-[ ] - Add order detail
+- [X] Cart page
+- [ ] Filter dish by category
+- [ ] Add delete item from cart
+- [ ] Add update quantity item from cart
+- [ ] Add checkout
+- [ ] Add order history
+- [ ] Add order detail
 
 ### UI
 
-[ ] - loading
-[ ] - Button component
+- [ ] loading
+- [ ] Button component
 
 ## Getting Started
 
