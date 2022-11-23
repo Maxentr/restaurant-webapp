@@ -9,7 +9,7 @@ type MenuChoice = {
 
 export type MenuDrinkChoice = MenuChoice & {
   drink: Drink
-  size: string
+  size: ObjectId
 }
 
 export type MenuDishChoice = MenuChoice & {
