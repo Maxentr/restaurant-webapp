@@ -1,10 +1,10 @@
 import { getDrinks } from "../../../services/drink.service"
-import DrinksManagement from "./drinks"
+import DrinksManagement from "./Drinks"
 
 const Page = async () => {
-  const drinks = await getDrinks()
-
-  return <DrinksManagement drinksReponse={drinks} />
+  const response = await getDrinks()
+  if ("data" in response)
+    return <DrinksManagement drinksReponse={response.data} />
 }
 
 export default Page

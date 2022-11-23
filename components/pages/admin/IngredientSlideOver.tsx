@@ -43,7 +43,7 @@ const IngredientSlideOver = ({
   useEffect(() => {
     const getAndSetStockTypes = async () => {
       const response = await getIngredientsStockType()
-      setStockTypes(response)
+      if ("data" in response) setStockTypes(response.data)
     }
     getAndSetStockTypes()
   }, [])
@@ -57,23 +57,23 @@ const IngredientSlideOver = ({
         ingredient._id,
         formData as Ingredient,
       )
-      if (response) {
+      if ("data" in response) {
         addToast({
           type: "success",
           title: "Succès",
           message: "L'ingrédient a bien été modifié",
         })
-        close("edit", response)
+        close("edit", response.data)
       }
     } else {
       const response = await addIngredient(formData as Ingredient)
-      if (response) {
+      if ("data" in response) {
         addToast({
           type: "success",
           title: "Succès",
           message: "L'ingrédient a bien été ajouté",
         })
-        close("create", response)
+        close("create", response.data)
       }
     }
   }

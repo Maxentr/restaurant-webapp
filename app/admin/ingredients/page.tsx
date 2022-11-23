@@ -1,15 +1,10 @@
+import { getIngredients } from "../../../services/ingredient.service"
 import IngredientsManagement from "./Ingredients"
 
-async function getIngredients() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ingredients`)
-  const ingredients = await res.json()
-  return ingredients
-}
-
 const Page = async () => {
-  const ingredients = await getIngredients()
-
-  return <IngredientsManagement ingredients={ingredients} />
+  const response = await getIngredients()
+  if ("data" in response)
+    return <IngredientsManagement ingredients={response.data} />
 }
 
 export default Page

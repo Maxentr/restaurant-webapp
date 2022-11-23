@@ -3,6 +3,7 @@ import { useEffect, useReducer, useState } from "react"
 import { useConfirmationModal } from "../../../hooks/contexts/useConfirmationModal"
 import { useToast } from "../../../hooks/contexts/useToast"
 import { addDrink, editDrink } from "../../../services/drink.service"
+import { ApiError } from "../../../types/apiResponse.type"
 import { Drink, DrinkStockSize } from "../../../types/drink.type"
 import SlideOver from "../../ui/SlideOver"
 import { drinkFormReducer, DRINK_INITIAL_STATE } from "./drinkFormReducer"
@@ -78,27 +79,18 @@ const DrinkSlideOver = ({
   const submitDrink = async () => {
     // Flemme de faire un vrai form
     if (!formData) return
+    let response: { data: Drink } | { error: ApiError }
 
-    if (drink) {
-      const response = await editDrink(drink._id, formData as Drink)
-      if (response) {
-        addToast({
-          type: "success",
-          title: "Succès",
-          message: "La boisson a bien été modifiée",
-        })
-        close("edit", response)
-      }
-    } else {
-      const response = await addDrink(formData as Drink)
-      if (response) {
-        addToast({
-          type: "success",
-          title: "Succès",
-          message: "La boisson a bien été ajoutée",
-        })
-        close("create", response)
-      }
+    if (drink) response = await editDrink(drink._id, formData as Drink)
+    else response = await addDrink(formData as Drink)
+
+    if ("data" in response) {
+      addToast({
+        type: "success",
+        title: "Succès",
+        message: `La boisson a bien été ${drink ? "modifiée" : "ajoutée"}`,
+      })
+      close(drink ? "edit" : "create", response.data)
     }
   }
 
