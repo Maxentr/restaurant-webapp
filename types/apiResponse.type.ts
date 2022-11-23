@@ -5,4 +5,8 @@ export type ApiError = {
   statusCode?: number
 }
 
-export type ApiResponse<T> = Promise<{ error: ApiError } | { data: T }>
+export type ApiErrorObject = {
+  error: ApiError
+}
+
+export type ApiResponse<T> = Promise<ApiErrorObject | { data: T }>
