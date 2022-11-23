@@ -15,7 +15,7 @@ export const addIngredient = async (
       ingredient,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -24,7 +24,7 @@ export const addIngredient = async (
 export const getIngredients = async (): ApiResponse<Ingredient[]> => {
   try {
     const { data } = await axios.get(API_ROUTE_URL)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -33,7 +33,7 @@ export const getIngredients = async (): ApiResponse<Ingredient[]> => {
 export const getIngredientsStockType = async (): ApiResponse<string[]> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}/stock-type`)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -42,7 +42,7 @@ export const getIngredientsStockType = async (): ApiResponse<string[]> => {
 export const getIngredient = async (id: ObjectId): ApiResponse<Ingredient> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}/${id}`)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -58,7 +58,7 @@ export const editIngredient = async (
       ingredient,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -72,7 +72,7 @@ export const deleteIngredient = async (
       `${API_ROUTE_URL}/${id}`,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }

@@ -9,7 +9,7 @@ const API_ROUTE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/drinks`
 export const addDrink = async (drink: Drink): ApiResponse<Drink> => {
   try {
     const { data } = await axios.post(API_ROUTE_URL, drink, AxiosAuthConfig)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -18,7 +18,7 @@ export const addDrink = async (drink: Drink): ApiResponse<Drink> => {
 export const getDrinks = async (): ApiResponse<Drink[]> => {
   try {
     const { data } = await axios.get(API_ROUTE_URL)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -27,7 +27,7 @@ export const getDrinks = async (): ApiResponse<Drink[]> => {
 export const getDrinksByArray = async (ids: ObjectId[]): ApiResponse<Drink[]> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}/array/${ids}`)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -36,7 +36,7 @@ export const getDrinksByArray = async (ids: ObjectId[]): ApiResponse<Drink[]> =>
 export const getDrink = async (id: ObjectId): ApiResponse<Drink> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}/${id}`)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -52,7 +52,7 @@ export const editDrink = async (
       drink,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -64,7 +64,7 @@ export const deleteDrink = async (id: ObjectId): ApiResponse<Drink> => {
       `${API_ROUTE_URL}/${id}`,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }

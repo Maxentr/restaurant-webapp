@@ -26,7 +26,7 @@ export const verifyAccessToken = async (
     const { data } = await axios.post(`${API_ROUTE_URL}/verify`, {
       accessToken,
     })
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -36,7 +36,7 @@ export const verifyAccessToken = async (
 export const refreshToken = async (): ApiResponse<string> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}/refresh`)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }

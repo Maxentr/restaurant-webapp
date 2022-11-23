@@ -9,7 +9,7 @@ const API_ROUTE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/menus`
 export const addMenu = async (menu: Menu): ApiResponse<Menu> => {
   try {
     const { data } = await axios.post(API_ROUTE_URL, menu, AxiosAuthConfig)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -18,7 +18,7 @@ export const addMenu = async (menu: Menu): ApiResponse<Menu> => {
 export const getMenus = async (): ApiResponse<Menu[]> => {
   try {
     const { data } = await axios.get(API_ROUTE_URL)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -27,7 +27,7 @@ export const getMenus = async (): ApiResponse<Menu[]> => {
 export const getMenu = async (id: ObjectId): ApiResponse<Menu> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}/${id}`)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -40,7 +40,7 @@ export const editMenu = async (id: ObjectId, menu: Menu): ApiResponse<Menu> => {
       menu,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -52,7 +52,7 @@ export const deleteMenu = async (id: ObjectId): ApiResponse<Menu> => {
       `${API_ROUTE_URL}/${id}`,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }

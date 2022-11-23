@@ -9,7 +9,7 @@ const API_ROUTE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/dishes`
 export const addDish = async (dish: Dish): ApiResponse<Dish> => {
   try {
     const { data } = await axios.post(API_ROUTE_URL, dish)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -18,7 +18,7 @@ export const addDish = async (dish: Dish): ApiResponse<Dish> => {
 export const getDishes = async (): ApiResponse<Dish[]> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}`, AxiosAuthConfig)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -27,7 +27,7 @@ export const getDishes = async (): ApiResponse<Dish[]> => {
 export const getDishesByArray = async (ids: ObjectId[]): ApiResponse<Dish[]> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}/array/${ids}`)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -36,7 +36,7 @@ export const getDishesByArray = async (ids: ObjectId[]): ApiResponse<Dish[]> => 
 export const getDish = async (id: ObjectId): ApiResponse<Dish> => {
   try {
     const { data } = await axios.get(`${API_ROUTE_URL}/${id}`)
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -49,7 +49,7 @@ export const editDish = async (id: ObjectId, dish: Dish): ApiResponse<Dish> => {
       dish,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }
@@ -61,7 +61,7 @@ export const deleteDish = async (id: ObjectId): ApiResponse<Dish> => {
       `${API_ROUTE_URL}/${id}`,
       AxiosAuthConfig,
     )
-    return data
+    return { data }
   } catch (e) {
     return AxiosErrorHandler(e)
   }

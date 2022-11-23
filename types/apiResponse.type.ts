@@ -9,4 +9,4 @@ export type ApiErrorObject = {
   error: ApiError
 }
 
-export type ApiResponse<T> = Promise<ApiErrorObject | { data: T }>
+export type ApiResponse<T> = Promise<{ error: ApiError } | { data: T }>
