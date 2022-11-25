@@ -135,10 +135,9 @@ const DrinksManagement = ({ drinksReponse }: Props) => {
   const handleSlideOverSubmit = (type: "create" | "edit", drink: Drink) => {
     if (type === "create") setDrinks([...drinks, drink])
     else if (type === "edit") {
-      const newDrinks = drinks.map((ing) => {
-        if (ing._id === drink._id) return drink
-        return ing
-      })
+      const newDrinks = drinks.map((oldDrink) =>
+        oldDrink._id === drink._id ? drink : oldDrink,
+      )
       setDrinks(newDrinks)
     }
     toggle()
