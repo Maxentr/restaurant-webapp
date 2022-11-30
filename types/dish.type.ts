@@ -3,7 +3,7 @@ import { Ingredient } from "./ingredient.type"
 
 export type DishIngredient = {
   _id: ObjectId
-  ingredient: string | Ingredient
+  ingredient: ObjectId | Ingredient
   quantity: number
 }
 
@@ -18,3 +18,7 @@ export type Dish = {
   createdAt: Date
   updatedAt: Date
 }
+
+// CRUD operations
+
+export type DishForm = Omit<Dish, "_id" | "createdAt" | "updatedAt">
