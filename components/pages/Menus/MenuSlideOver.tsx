@@ -1,12 +1,12 @@
 import { ShoppingCartIcon } from "@heroicons/react/20/solid"
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
-import useDrink from "../../../hooks/services/useDrink"
-import { Menu } from "../../../types/menu.type"
-import SlideOver from "../../ui/SlideOver"
-import Radio from "../../ui/Radio"
-import { useCart } from "../../../hooks/contexts/useCart"
-import { useToast } from "../../../hooks/contexts/useToast"
+import useDrink from "hooks/services/useDrink"
+import { Menu } from "types/menu.type"
+import SlideOver from "components/ui/SlideOver"
+import Radio from "components/ui/Radio"
+import { useCart } from "hooks/contexts/useCart"
+import { useToast } from "hooks/contexts/useToast"
 
 export type MenuSlideOverProps = {
   toggle: () => void

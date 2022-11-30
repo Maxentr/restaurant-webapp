@@ -1,8 +1,8 @@
 "use client"
 
 import { ReactNode } from "react"
-import GuestHeader from "../../components/pages/GuestHeader"
-import Header from "../../components/ui/Header"
+import GuestHeader from "components/pages/GuestHeader"
+import Header from "components/ui/Header"
 
 type GuestLayoutProps = {
   children: ReactNode

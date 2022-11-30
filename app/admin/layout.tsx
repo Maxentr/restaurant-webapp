@@ -4,10 +4,10 @@ import { ArrowRightOnRectangleIcon } from "@heroicons/react/20/solid"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import React from "react"
-import Header from "../../components/ui/Header"
-import Navbar from "../../components/ui/Navbar"
-import withAuth from "../../components/withAuth"
-import { useAuth } from "../../hooks/contexts/useAuth"
+import Header from "components/ui/Header"
+import Navbar from "components/ui/Navbar"
+import withAuth from "components/withAuth"
+import { useAuth } from "hooks/contexts/useAuth"
 
 const routes = [
   {

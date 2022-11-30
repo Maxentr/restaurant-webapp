@@ -1,8 +1,8 @@
-import "../styles/globals.css"
-import CartProvider from "../hooks/contexts/useCart"
-import ToastProvider from "../hooks/contexts/useToast"
-import ConfirmationModalProvider from "../hooks/contexts/useConfirmationModal"
-import AuthProvider from "../hooks/contexts/useAuth"
+import "styles/globals.css"
+import CartProvider from "hooks/contexts/useCart"
+import ToastProvider from "hooks/contexts/useToast"
+import ConfirmationModalProvider from "hooks/contexts/useConfirmationModal"
+import AuthProvider from "hooks/contexts/useAuth"
 import { ReactNode } from "react"
 
 function RootLayout({ children }: { children: ReactNode }) {

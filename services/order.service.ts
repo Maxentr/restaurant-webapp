@@ -1,8 +1,8 @@
 import axios from "axios"
-import { ApiResponse } from "../types/apiResponse.type"
-import { ObjectId } from "../types/common.type"
-import { Order } from "../types/order.type"
-import { AxiosAuthConfig, AxiosErrorHandler } from "../utils/axiosHelper"
+import { ApiResponse } from "types/apiResponse.type"
+import { ObjectId } from "types/common.type"
+import { Order } from "types/order.type"
+import { AxiosAuthConfig, AxiosErrorHandler } from "utils/axiosHelper"
 
 const API_ROUTE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/orders`
 

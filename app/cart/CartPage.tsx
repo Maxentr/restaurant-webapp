@@ -4,16 +4,16 @@ import { ShoppingCartIcon } from "@heroicons/react/24/solid"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
-import { useCart } from "../../hooks/contexts/useCart"
-import useDrink from "../../hooks/services/useDrink"
-import useMenu from "../../hooks/services/useMenu"
-import { getDish } from "../../services/dish.service"
-import { getDrink } from "../../services/drink.service"
-import { getMenu } from "../../services/menu.service"
-import { Dish } from "../../types/dish.type"
-import { Drink } from "../../types/drink.type"
-import { Menu } from "../../types/menu.type"
-import { OrderItemTypeString } from "../../types/order.type"
+import { useCart } from "hooks/contexts/useCart"
+import useDrink from "hooks/services/useDrink"
+import useMenu from "hooks/services/useMenu"
+import { getDish } from "services/dish.service"
+import { getDrink } from "services/drink.service"
+import { getMenu } from "services/menu.service"
+import { Dish } from "types/dish.type"
+import { Drink } from "types/drink.type"
+import { Menu } from "types/menu.type"
+import { OrderItemTypeString } from "types/order.type"
 
 type CartItemsInformations = (Menu | Dish | Drink | undefined) & {
   quantity: number
@@ -42,34 +42,39 @@ const CartPage = () => {
           if (item.type === "MENU") {
             // Get menu
             response = await getMenu(item.menu)
-            // Get choices
-            const { dish, aside, drink } = getMenuChoices(
-              response,
-              item.choicesId,
-            )
-            // Get drink size
-            const drinkSize = drink
-              ? getDrinkSize(drink?.drink, drink.size)
-              : { name: "" }
+            if ("data" in response) {
+              // Get choices
+              const { dish, aside, drink } = getMenuChoices(
+                response.data,
+                item.choicesId,
+              )
+              // Get drink size
+              const drinkSize = drink
+                ? getDrinkSize(drink?.drink, drink.size)
+                : { name: "" }
 
-            // Set description
-            response.description = `${dish?.dish.name} + ${aside?.aside.name} + ${drink?.drink.name} (${drinkSize.name})`
+              // Set description
+              response.data.description = `${dish?.dish.name} + ${aside?.aside.name} + ${drink?.drink.name} (${drinkSize.name})`
+            }
           } else if (item.type === "DISH") {
             // For dishes
             response = await getDish(item.dish)
           } else if (item.type === "DRINK") {
             // For Drinks
             response = await getDrink(item.drink)
-            const drinkSize = getDrinkSize(response, item.sizeId)
-            response.name = `${response.name} (${drinkSize.name})`
+            if ("data" in response) {
+              const drinkSize = getDrinkSize(response.data, item.sizeId)
+              response.data.name = `${response.data.name} (${drinkSize.name})`
+            }
           }
-
-          return {
-            ...response,
-            quantity: item.quantity,
-            price: item.totalPrice,
-            type: item.type,
-          } as CartItemsInformations
+          if (response && "data" in response)
+            return {
+              ...response.data,
+              quantity: item.quantity,
+              price: item.totalPrice,
+              type: item.type,
+            } as CartItemsInformations
+          return {} as CartItemsInformations
         }),
       )
       setItemsInformations(itemsInformations)

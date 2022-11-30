@@ -8,7 +8,7 @@ import {
   OrderItemDrink,
   OrderItemMenu,
   OrderItemType,
-} from "../../types/order.type"
+} from "types/order.type"
 
 type AddCartItem = OrderItemMenu | OrderItemDish | OrderItemDrink
 

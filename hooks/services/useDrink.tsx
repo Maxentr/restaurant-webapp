@@ -1,4 +1,4 @@
-import { Drink } from "../../types/drink.type"
+import { Drink } from "types/drink.type"
 
 const useDrink = () => {
   const getDrinkSize = (drink: Drink, sizeId: string) => {

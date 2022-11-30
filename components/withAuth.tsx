@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation"
 import React, { ComponentType, useEffect, useState } from "react"
-import { useAuth } from "../hooks/contexts/useAuth"
-import { verifyAccessToken } from "../services/auth.service"
+import { useAuth } from "hooks/contexts/useAuth"
+import { verifyAccessToken } from "services/auth.service"
 
 const withAuth = <P extends object>(
   WrappedComponent: ComponentType<P>,
@@ -21,12 +21,14 @@ const withAuth = <P extends object>(
           router.replace("/login")
         } else {
           // we call the api that verifies the token.
-          const isVerify = await verifyAccessToken(accessToken)
-          // if token was verified we set the state.
-          if (isVerify) setVerified(isVerify)
-          else {
-            clearAccessToken()
-            router.replace("/login")
+          const response = await verifyAccessToken(accessToken)
+          if ("data" in response) {
+            // if token was verified we set the state.
+            if (response.data) setVerified(response.data)
+            else {
+              clearAccessToken()
+              router.replace("/login")
+            }
           }
         }
       }

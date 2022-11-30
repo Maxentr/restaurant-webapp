@@ -1,10 +1,10 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import Card, { CardType } from "../../../components/ui/Card"
-import { useCart } from "../../../hooks/contexts/useCart"
-import { useToast } from "../../../hooks/contexts/useToast"
-import { Dish } from "../../../types/dish.type"
+import Card, { CardType } from "components/ui/Card"
+import { useCart } from "hooks/contexts/useCart"
+import { useToast } from "hooks/contexts/useToast"
+import { Dish } from "types/dish.type"
 
 type DishesProps = {
   dishes: Dish[]

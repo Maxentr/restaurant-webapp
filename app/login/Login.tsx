@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
-import { useAuth } from "../../hooks/contexts/useAuth"
-import { useToast } from "../../hooks/contexts/useToast"
-import { login } from "../../services/auth.service"
+import { useAuth } from "hooks/contexts/useAuth"
+import { useToast } from "hooks/contexts/useToast"
+import { login } from "services/auth.service"
 
 const Login = () => {
   const router = useRouter()

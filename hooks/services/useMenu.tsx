@@ -1,5 +1,5 @@
-import { ObjectId } from "../../types/common.type"
-import { Menu } from "../../types/menu.type"
+import { ObjectId } from "types/common.type"
+import { Menu } from "types/menu.type"
 
 const useMenu = () => {
   const getMenuChoices = (menu: Menu, choicesId: ObjectId[]) => {

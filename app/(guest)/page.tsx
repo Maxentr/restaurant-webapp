@@ -1,4 +1,4 @@
-import { getMenus } from "../../services/menu.service"
+import { getMenus } from "services/menu.service"
 import HomePage from "./HomePage"
 
 const Page = async () => {

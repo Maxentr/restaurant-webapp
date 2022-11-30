@@ -1,4 +1,4 @@
-import { Drink, DrinkStockSize } from "../../../types/drink.type"
+import { Drink, DrinkStockSize } from "types/drink.type"
 
 export const DRINK_INITIAL_STATE: Drink = {
   _id: "",

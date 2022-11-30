@@ -1,11 +1,8 @@
 "use client"
 
 import React, { createContext, useContext, useState } from "react"
-import { User } from "../../types/user.types"
-import {
-  logout as requestLogout,
-  refreshToken,
-} from "../../services/auth.service"
+import { User } from "types/user.types"
+import { logout as requestLogout, refreshToken } from "services/auth.service"
 import jwt_decode from "jwt-decode"
 
 type AuthContextInterface = {
@@ -39,9 +36,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const refreshConnectedUser = async () => {
-    const accessToken = await refreshToken()
-    localStorage.setItem("accessToken", accessToken)
-    decodeAndSetUser(accessToken)
+    const response = await refreshToken()
+    if ("data" in response) {
+      localStorage.setItem("accessToken", response.data)
+      decodeAndSetUser(response.data)
+    }
   }
 
   const clearAccessToken = () => {

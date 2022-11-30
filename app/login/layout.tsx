@@ -3,7 +3,7 @@
 import { HomeIcon } from "@heroicons/react/20/solid"
 import Link from "next/link"
 import { ReactNode } from "react"
-import Header from "../../components/ui/Header"
+import Header from "components/ui/Header"
 
 type GuestLayoutProps = {
   children: ReactNode

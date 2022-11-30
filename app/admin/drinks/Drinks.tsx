@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Drink, DrinkStockSize } from "../../../types/drink.type"
-import { deleteDrink } from "../../../services/drink.service"
+import { Drink, DrinkStockSize } from "types/drink.type"
+import { deleteDrink } from "services/drink.service"
 import RCTable from "rc-table"
 import {
   MinusIcon,
@@ -11,10 +11,10 @@ import {
   TrashIcon,
 } from "@heroicons/react/20/solid"
 import { ColumnsType, DefaultRecordType } from "rc-table/lib/interface"
-import { useToast } from "../../../hooks/contexts/useToast"
-import DrinkSlideOver from "../../../components/pages/admin/DrinkSlideOver"
-import useModal from "../../../hooks/useModal"
-import { useConfirmationModal } from "../../../hooks/contexts/useConfirmationModal"
+import { useToast } from "hooks/contexts/useToast"
+import DrinkSlideOver from "components/pages/admin/DrinkSlideOver"
+import useModal from "hooks/useModal"
+import { useConfirmationModal } from "hooks/contexts/useConfirmationModal"
 
 type Props = {
   drinksReponse: Drink[]

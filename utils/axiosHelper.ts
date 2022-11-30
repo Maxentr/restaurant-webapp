@@ -1,7 +1,7 @@
 "use client"
 
 import axios, { AxiosRequestConfig } from "axios"
-import { ApiErrorObject } from "../types/apiResponse.type"
+import { ApiErrorObject } from "types/apiResponse.type"
 axios.defaults.withCredentials = true
 
 export const AxiosAuthConfig: AxiosRequestConfig = {
