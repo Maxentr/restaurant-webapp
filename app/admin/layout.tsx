@@ -37,7 +37,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
     <Header content={<HeaderContent />}>
       <Navbar baseRoute="admin" routes={routes} />
-      {children}
+      <div className="px-16 pt-8 pb-12">{children}</div>
     </Header>
   )
 }

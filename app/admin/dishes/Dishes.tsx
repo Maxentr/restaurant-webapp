@@ -141,7 +141,7 @@ const Dishes = ({ dishesResponse }: Props) => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center self-stretch w-full mt-8 mb-12">
+      <div className="flex flex-col items-center justify-center self-stretch w-full">
         <div className="max-w-7xl">
           {dishes.length > 0 && (
             <RCTable
@@ -171,7 +171,7 @@ const Dishes = ({ dishesResponse }: Props) => {
           <div className="w-full flex flex-row mt-4">
             <button
               className="bg-gray-900 text-white font-bold py-2 px-4 rounded"
-              onClick={() => console.log("push to create dish")}
+              onClick={() => router.push("/admin/dishes/new")}
             >
               Ajouter un plat
             </button>

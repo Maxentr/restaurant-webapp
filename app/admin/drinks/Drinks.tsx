@@ -162,7 +162,7 @@ const DrinksManagement = ({ drinksReponse }: Props) => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center self-stretch w-full mt-8 mb-12">
+      <div className="flex flex-col items-center justify-center self-stretch w-full">
         <div className="max-w-7xl">
           {drinks.length > 0 && (
             <RCTable
