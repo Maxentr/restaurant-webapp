@@ -1,20 +1,15 @@
 "use client"
 
-import {
-  MinusIcon,
-  PencilIcon,
-  PlusIcon,
-  TrashIcon,
-} from "@heroicons/react/20/solid"
+import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { ColumnsType, DefaultRecordType } from "rc-table/lib/interface"
 import React, { useState } from "react"
-import RCTable from "rc-table"
 import { useConfirmationModal } from "hooks/contexts/useConfirmationModal"
 import { useToast } from "hooks/contexts/useToast"
 import { Dish, DishIngredient } from "types/dish.type"
 import { deleteDish } from "services/dish.service"
 import { Ingredient } from "types/ingredient.type"
 import { useRouter } from "next/navigation"
+import Table from "components/ui/Table"
 
 type Props = {
   dishesResponse: Dish[]
@@ -122,52 +117,20 @@ const Dishes = ({ dishesResponse }: Props) => {
     })
   }
 
-  const CustomExpandIcon = (props: any) => {
-    return (
-      <div
-        onClick={(e) => {
-          props.onExpand(props.record, e)
-        }}
-        className="expand-row-icon w-full h-full cursor-pointer"
-      >
-        {props.expanded ? (
-          <MinusIcon className="fill-gray-900 w-4" />
-        ) : (
-          <PlusIcon className="fill-gray-900 w-4" />
-        )}
-      </div>
-    )
-  }
-
   return (
     <>
       <div className="flex flex-col items-center justify-center self-stretch w-full">
         <div className="max-w-7xl">
-          {dishes.length > 0 && (
-            <RCTable
-              rowKey={(row) => row._id}
-              columns={columns}
-              expandable={{
-                showExpandColumn: true,
-                indentSize: 0,
-                expandRowByClick: false,
-                expandedRowClassName: () => "border border-gray-200",
-                expandedRowRender: (row) => (
-                  <RCTable
-                    rowKey={(row) => row._id}
-                    columns={expandColumns}
-                    data={row.ingredients}
-                    className="w-full"
-                    rowClassName="w-full border-t border-gray-200"
-                  />
-                ),
-                expandIcon: CustomExpandIcon,
-              }}
-              data={dishes}
-              className=""
-              rowClassName="border border-gray-200"
-            />
-          )}
+          <Table
+            columns={columns}
+            data={dishes}
+            rowKey="_id"
+            expandOptions={{
+              accessor: "ingredients",
+              rowKey: "_id",
+              columns: expandColumns,
+            }}
+          />
           <div className="w-full flex flex-row mt-4">
             <button
               className="bg-gray-900 text-white font-bold py-2 px-4 rounded"
