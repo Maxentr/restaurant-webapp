@@ -1,14 +1,18 @@
 import { getDish, getDishes } from "services/dish.service"
 import { getIngredients } from "services/ingredient.service"
-import ManageDish from "./EditDish"
+import EditDish from "./EditDish"
 
-const Page = async ({ params }: any) => {
+type Props = {
+  params: { id: string }
+}
+
+const Page = async ({ params }: Props) => {
   const { id } = params
 
   const dish = await getDish(id)
   const ingredients = await getIngredients()
   if ("data" in dish && "data" in ingredients)
-    return <ManageDish dish={dish.data} ingredients={ingredients.data} />
+    return <EditDish dish={dish.data} ingredients={ingredients.data} />
 }
 
 export async function generateStaticParams() {
