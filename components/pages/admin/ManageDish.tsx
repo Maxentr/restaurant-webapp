@@ -150,7 +150,7 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
           type="text"
           id="category"
           name="category"
-          defaultValue={+(dish?.category || "")}
+          defaultValue={(dish?.category || "")}
           className="border border-gray-900 rounded-md px-4 py-2"
           onChange={(e) => {
             dispatch({
