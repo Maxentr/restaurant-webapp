@@ -33,7 +33,7 @@ interface TableProps<T> extends Props {
 }
 
 interface ExpandTableProps extends Props {
-  accessors: string
+  accessor: string
 }
 
 function Table<T>({ data, rowKey, columns, expandOptions }: TableProps<T>) {
@@ -49,7 +49,7 @@ function Table<T>({ data, rowKey, columns, expandOptions }: TableProps<T>) {
         expandedRowRender: expandOptions
           ? (row) => (
               <Table
-                rowKey={(row) => row[rowKey]}
+                rowKey={row[rowKey]}
                 data={row?.[expandOptions.accessor] as any[]}
                 columns={expandOptions.columns}
                 expandOptions={expandOptions.expandOptions}
