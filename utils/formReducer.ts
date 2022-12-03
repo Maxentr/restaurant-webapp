@@ -18,13 +18,13 @@ type GenericAction = {
 }
 
 // SET_DATA
-interface ActionSetData<T> extends GenericAction {
+interface SetData<T> extends GenericAction {
   type: "SET_DATA"
   payload: T
 }
 
 // CHANGE_INPUT
-interface ActionChangeInput<T> extends GenericAction {
+interface ChangeInput<T> extends GenericAction {
   type: "CHANGE_INPUT"
   payload: {
     [K in keyof T]: {
@@ -35,7 +35,7 @@ interface ActionChangeInput<T> extends GenericAction {
 }
 
 // ADD_ARRAY_ELEMENT
-interface ActionAddArrayElement<T> extends GenericAction {
+interface AddArrayElement<T> extends GenericAction {
   type: "ADD_ARRAY_ELEMENT"
   payload: {
     [K in keyof T]: {
@@ -45,8 +45,20 @@ interface ActionAddArrayElement<T> extends GenericAction {
   }[keyof T]
 }
 
+// ADD_ARRAY_ELEMENT
+interface EditArrayElement<T> extends GenericAction {
+  type: "EDIT_ARRAY_ELEMENT"
+  payload: {
+    [K in keyof T]: {
+      accessor: K extends KeyofIsArray<T> ? K : never
+      value: GetTypeFromArray<T[K]>
+      index: number
+    }
+  }[keyof T]
+}
+
 // REMOVE_ARRAY_ELEMENT
-interface ActionRemoveArrayElement<T> extends GenericAction {
+interface RemoveArrayElement<T> extends GenericAction {
   type: "REMOVE_ARRAY_ELEMENT"
   payload: {
     accessor: KeyofIsArray<T>
@@ -55,15 +67,16 @@ interface ActionRemoveArrayElement<T> extends GenericAction {
 }
 
 type ActionReducer<T> =
-  | ActionSetData<T>
-  | ActionChangeInput<T>
-  | ActionAddArrayElement<T>
-  | ActionRemoveArrayElement<T>
+  | SetData<T>
+  | ChangeInput<T>
+  | AddArrayElement<T>
+  | EditArrayElement<T>
+  | RemoveArrayElement<T>
 
 /**
  * This is a generic reducer that can be used for any object with any properties (even arrays of objects). Its limitations are that it can only handle one level of arrays.
  */
-export function GenericFormReducer<T>(state: T, action: ActionReducer<T>): T {
+export function genericFormReducer<T>(state: T, action: ActionReducer<T>): T {
   const { type, payload } = action
   switch (type) {
     case "SET_DATA":
@@ -77,6 +90,15 @@ export function GenericFormReducer<T>(state: T, action: ActionReducer<T>): T {
       return {
         ...state,
         [payload.accessor]: [...(<[]>state[payload.accessor]), payload.value],
+      }
+    case "EDIT_ARRAY_ELEMENT":
+      return {
+        ...state,
+        [payload.accessor]: [
+          ...(<[]>state[payload.accessor]).slice(0, payload.index),
+          payload.value,
+          ...(<[]>state[payload.accessor]).slice(payload.index + 1),
+        ],
       }
     case "REMOVE_ARRAY_ELEMENT":
       return {
