@@ -1,17 +1,8 @@
 "use client"
 
+import { GetTypeFromArray, KeyofIsArray } from "types/common.type"
+
 // Generic types
-
-// T keys but only the ones that are arrays
-type KeyofIsArray<T> = {
-  [K in keyof T]: T[K] extends readonly unknown[] ? K : never
-}[keyof T]
-
-// Check if ArrayType is an array and if it is, return the type of the array
-type GetTypeFromArray<ArrayType> = ArrayType extends readonly (infer Type)[]
-  ? Type
-  : never
-
 type GenericAction = {
   type: string
   payload: unknown
