@@ -2,14 +2,12 @@
 
 import { PlusIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { useEffect, useReducer, useState } from "react"
-import { DishForm, Dish } from "types/dish.type"
-import {
-  dishFormReducer,
-  DishIngredientForm,
-  DISH_INITIAL_STATE,
-} from "components/pages/admin/dishFormReducer"
+import { DishForm, Dish, DishIngredientForm } from "types/dish.type"
 import { Ingredient } from "types/ingredient.type"
 import { ObjectId } from "types/common.type"
+import { genericFormReducer } from "utils/formReducer"
+import Select from "components/ui/Select"
+import Input from "components/ui/Input"
 
 type Props = {
   dish?: Dish
@@ -18,8 +16,20 @@ type Props = {
   onChange: (dish: DishForm) => void
 }
 
+const DISH_INITIAL_STATE: DishForm = {
+  name: "",
+  description: "",
+  price: 0,
+  image: "",
+  category: "",
+  ingredients: [],
+}
+
 const ManageDish = ({ dish, ingredients, onChange }: Props) => {
-  const [formData, dispatch] = useReducer(dishFormReducer, DISH_INITIAL_STATE)
+  const [formData, dispatch] = useReducer(
+    genericFormReducer<DishForm>,
+    DISH_INITIAL_STATE,
+  )
   const availableIngredients = ingredients.filter(
     (ingredient) =>
       !formData.ingredients.find(
@@ -35,7 +45,7 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
   // Used to update the form data when a dish is edited
   useEffect(() => {
     const isEdition = dish !== undefined
-    if (isEdition) dispatch({ type: "SET_DISH", payload: dish })
+    if (isEdition) dispatch({ type: "SET_DATA", payload: dish as DishForm })
   }, [dish])
 
   // Return data to parent component
@@ -64,16 +74,20 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
     console.log(createIngredientData)
     if (createIngredientData.ingredient && createIngredientData.quantity) {
       dispatch({
-        type: "ADD_INGREDIENT",
-        payload: createIngredientData,
+        type: "ADD_ARRAY_ELEMENT",
+        payload: {
+          accessor: "ingredients",
+          value: createIngredientData,
+        },
       })
     }
   }
 
   const handleIngredientDeletion = (index: number) => {
     dispatch({
-      type: "REMOVE_INGREDIENT",
+      type: "REMOVE_ARRAY_ELEMENT",
       payload: {
+        accessor: "ingredients",
         index: index,
       },
     })
@@ -85,131 +99,100 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
 
   return (
     <>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="name">Nom du plat :</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Nom du plat"
-          defaultValue={dish?.name || ""}
-          className="border border-gray-900 rounded-md px-4 py-2"
-          onChange={(e) => {
-            dispatch({
-              type: "CHANGE_INPUT",
-              payload: {
-                name: e.target.name.toString(),
-                value: e.target.value.toString(),
-              },
-            })
-          }}
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="description">Description :</label>
-        <input
-          type="text"
-          id="description"
-          name="description"
-          placeholder="Description du plat"
-          defaultValue={dish?.description || ""}
-          className="border border-gray-900 rounded-md px-4 py-2"
-          onChange={(e) => {
-            dispatch({
-              type: "CHANGE_INPUT",
-              payload: {
-                name: e.target.name.toString(),
-                value: e.target.value.toString(),
-              },
-            })
-          }}
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="price">Prix :</label>
-        <input
-          type="number"
-          id="price"
-          name="price"
-          defaultValue={+(dish?.price || 0)}
-          className="border border-gray-900 rounded-md px-4 py-2"
-          onChange={(e) => {
-            dispatch({
-              type: "CHANGE_INPUT",
-              payload: {
-                name: e.target.name.toString(),
-                value: e.target.value.toString(),
-              },
-            })
-          }}
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="price">Catégorie :</label>
-        <input
-          type="text"
-          id="category"
-          name="category"
-          defaultValue={(dish?.category || "")}
-          className="border border-gray-900 rounded-md px-4 py-2"
-          onChange={(e) => {
-            dispatch({
-              type: "CHANGE_INPUT",
-              payload: {
-                name: e.target.name.toString(),
-                value: e.target.value.toString(),
-              },
-            })
-          }}
-        />
-      </div>
+      <Input
+        label="Nom du plat"
+        name="name"
+        placeholder="Nom du plat"
+        defaultValue={dish?.name}
+        onChange={(e) =>
+          dispatch({
+            type: "CHANGE_INPUT",
+            payload: {
+              accessor: "name",
+              value: e.target.value,
+            },
+          })
+        }
+      />
+      <Input
+        label="Description"
+        name="description"
+        placeholder="Description du plat"
+        defaultValue={dish?.description}
+        onChange={(e) =>
+          dispatch({
+            type: "CHANGE_INPUT",
+            payload: {
+              accessor: "description",
+              value: e.target.value,
+            },
+          })
+        }
+      />
+      <Input
+        type="number"
+        label="Prix"
+        name="price"
+        defaultValue={dish?.price}
+        min={1}
+        onChange={(e) =>
+          dispatch({
+            type: "CHANGE_INPUT",
+            payload: {
+              accessor: "price",
+              value: +e.target.value,
+            },
+          })
+        }
+      />
+      <Input
+        label="Catégorie"
+        name="category"
+        defaultValue={dish?.category}
+        onChange={(e) =>
+          dispatch({
+            type: "CHANGE_INPUT",
+            payload: {
+              accessor: "category",
+              value: e.target.value,
+            },
+          })
+        }
+      />
       <div>
         <div className="mt-8 flex flex-row gap-4 items-end">
-          <div className="flex flex-grow flex-col gap-2">
-            <label htmlFor="ingredient">Ajouter un ingredient :</label>
-            <select
-              name="ingredient"
-              id="ingredient"
-              className="border border-gray-900 rounded-md px-4 py-2 bg-white h-[2.625rem]"
-              disabled={!availableIngredients.length}
-              placeholder="Ingredient"
-              value={createIngredientData.ingredient}
-              onChange={(e) =>
-                setCreateIngredientData({
-                  ...createIngredientData,
-                  ingredient: e.target.value as ObjectId,
-                })
-              }
-            >
-              {availableIngredients.length > 0 ? (
-                availableIngredients.map((ingredient) => (
-                  <option key={ingredient._id} value={ingredient._id}>
-                    {ingredient.name}
-                  </option>
-                ))
-              ) : (
-                <option value="">Aucun ingredient disponible</option>
-              )}
-            </select>
-          </div>
-          <div className="flex flex-grow flex-col gap-2">
-            <label htmlFor="quantity">Quantité :</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value={createIngredientData.quantity}
-              disabled={!availableIngredients.length}
-              min={1}
-              className="border border-gray-900 rounded-md px-4 py-2"
-              onChange={(e) =>
-                setCreateIngredientData({
-                  ...createIngredientData,
-                  quantity: +e.target.value,
-                })
-              }
-            />
-          </div>
+          <Select
+            name="ingredient"
+            label="Ingrédient"
+            noDataMessage="Aucun ingrédient disponible"
+            disabled={!availableIngredients.length}
+            data={availableIngredients}
+            accessor={{
+              display: "name",
+              value: "_id",
+            }}
+            value={createIngredientData.ingredient}
+            onChange={(e) =>
+              setCreateIngredientData({
+                ...createIngredientData,
+                ingredient: e.target.value as ObjectId,
+              })
+            }
+          />
+          <Input
+            type="number"
+            label="Quantité"
+            name="quantity"
+            min={1}
+            defaultValue={createIngredientData.quantity}
+            disabled={!availableIngredients.length}
+            onChange={(e) =>
+              setCreateIngredientData({
+                ...createIngredientData,
+                quantity: +e.target.value,
+              })
+            }
+          />
           <button
             onClick={createIngredient}
             className="bg-emerald-600 active:bg-emerald-700 text-white px-4 py-2 rounded-md flex items-center justify-center gap-2 h-[2.625rem]"
@@ -241,10 +224,14 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
                 onChange={(e) => {
                   ;+e.target.value > 0 &&
                     dispatch({
-                      type: "CHANGE_INGREDIENT",
-                      index: index,
+                      type: "EDIT_ARRAY_ELEMENT",
                       payload: {
-                        quantity: +e.target.value,
+                        accessor: "ingredients",
+                        index,
+                        value: {
+                          ...ingredient,
+                          quantity: +e.target.value,
+                        },
                       },
                     })
                 }}

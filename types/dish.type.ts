@@ -20,5 +20,11 @@ export type Dish = {
 }
 
 // CRUD operations
-
-export type DishForm = Omit<Dish, "_id" | "createdAt" | "updatedAt">
+export interface DishIngredientForm
+  extends Omit<DishIngredient, "_id" | "ingredient"> {
+  ingredient: string
+}
+export interface DishForm
+  extends Omit<Dish, "_id" | "ingredients" | "createdAt" | "updatedAt"> {
+  ingredients: DishIngredientForm[]
+}
