@@ -6,7 +6,7 @@ type WithLabelProps = {
   children: ReactNode
 }
 const WithLabel = ({ inputId, label, children }: WithLabelProps) => (
-  <div className="flex flex-col gap-2">
+  <div className="flex flex-col flex-grow gap-2">
     <label htmlFor={inputId}>{label}</label>
     {children}
   </div>
