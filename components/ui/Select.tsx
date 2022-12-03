@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import { GetTypeFromArray } from "types/common.type"
 import WithLabel from "./WithLabel"
 
@@ -9,6 +9,7 @@ interface Props {
   noDataMessage?: string
   disabled?: boolean
   data: any[]
+  value?: any
   defaultValue?: any
   accessor?: {
     value: string
@@ -22,6 +23,7 @@ const Select = ({
   label,
   name,
   data,
+  value,
   defaultValue,
   placeholder,
   noDataMessage,
@@ -33,6 +35,9 @@ const Select = ({
   const [selected, setSelected] = useState<GetTypeFromArray<Props["data"]>>(
     accessor ? defaultValue?.[accessor.value] : defaultValue || "",
   )
+  useEffect(() => {
+    if (value) setSelected(value)
+  }, [value])
 
   const rawSelect = (
     <select
