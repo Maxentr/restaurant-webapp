@@ -7,16 +7,16 @@ type MenuChoice = {
   extraCost?: number
 }
 
-export type MenuDrinkChoice = MenuChoice & {
+export interface MenuDrinkChoice extends MenuChoice {
   drink: Drink
   size: ObjectId
 }
 
-export type MenuDishChoice = MenuChoice & {
+export interface MenuDishChoice extends MenuChoice {
   dish: Dish
 }
 
-export type MenuAsideChoice = MenuChoice & {
+export interface MenuAsideChoice extends MenuChoice {
   aside: Dish
 }
 
@@ -31,4 +31,28 @@ export type Menu = {
   drinks: MenuDrinkChoice[]
   createdAt: Date
   updatedAt: Date
+}
+
+// CRUD operations
+type MenuChoiceForm = Omit<MenuChoice, "_id">
+export interface MenuDrinkChoiceForm extends MenuChoiceForm {
+  drink: ObjectId
+  size: ObjectId
+}
+
+export interface MenuDishChoiceForm extends MenuChoiceForm {
+  dish: ObjectId
+}
+
+export interface MenuAsideChoiceForm extends MenuChoiceForm {
+  aside: ObjectId
+}
+export interface MenuForm
+  extends Omit<
+    Menu,
+    "_id" | "dishes" | "asides" | "drinks" | "createdAt" | "updatedAt"
+  > {
+  dishes: MenuDishChoiceForm[]
+  asides: MenuAsideChoiceForm[]
+  drinks: MenuDrinkChoiceForm[]
 }

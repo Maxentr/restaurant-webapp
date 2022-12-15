@@ -49,7 +49,7 @@ const MenusManagement = ({ menus, dishes, drinks }: Props) => {
       width: 50,
       onCell: (record) => ({
         onClick() {
-          router.push(`/admin/dishes/${(record as Dish)._id}`)
+          router.push(`/admin/menus/${(record as Menu)._id}`)
         },
       }),
       className: "text-right px-4 border-y border-gray-200 py-2",
