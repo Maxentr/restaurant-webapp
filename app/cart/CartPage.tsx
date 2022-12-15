@@ -14,6 +14,7 @@ import { Dish } from "types/dish.type"
 import { Drink } from "types/drink.type"
 import { Menu } from "types/menu.type"
 import { OrderItemTypeString } from "types/order.type"
+import { TrashIcon } from "@heroicons/react/20/solid"
 
 type CartItemsInformations = (Menu | Dish | Drink | undefined) & {
   quantity: number
@@ -22,7 +23,7 @@ type CartItemsInformations = (Menu | Dish | Drink | undefined) & {
 }
 
 const CartPage = () => {
-  const { cartItems, total } = useCart()
+  const { cartItems, removeFromCart, total } = useCart()
   const { getMenuChoices } = useMenu()
   const { getDrinkSize } = useDrink()
 
@@ -80,7 +81,7 @@ const CartPage = () => {
       setItemsInformations(itemsInformations)
     }
     getItemsInformations()
-  }, [])
+  }, [cartItems])
 
   const EmptyCart = () => (
     <div className="h-full w-full flex flex-col gap-2 items-center justify-center">
@@ -132,11 +133,14 @@ const CartPage = () => {
                       <p className="text-sm">{item.description}</p>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center items-end gap-2">
-                    <p>{item.price} €</p>
-                    <p className="text-sm whitespace-nowrap">
-                      Quantité : {item.quantity}
-                    </p>
+                  <div className="flex flex-row gap-8 justify-center">
+                    <div className="flex flex-col justify-center items-end gap-2">
+                      <p className="text-sm whitespace-nowrap">
+                        Quantité : {item.quantity}
+                      </p>
+                      <p>{item.price} €</p>
+                    </div>
+                    <TrashIcon onClick={() => removeFromCart(item._id)} className="flex self-center w-6 h-6 fill-black hover:fill-red-600 transition-all duration-500 ease-out" />
                   </div>
                 </div>
               )
