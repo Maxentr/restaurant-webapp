@@ -1,7 +1,7 @@
 "use client"
 
 import { PlusIcon, TrashIcon } from "@heroicons/react/20/solid"
-import { useEffect, useReducer, useState } from "react"
+import { useEffect, useReducer } from "react"
 import { DishForm, Dish, DishIngredientForm } from "types/dish.type"
 import { Ingredient } from "types/ingredient.type"
 import { ObjectId } from "types/common.type"
@@ -36,11 +36,13 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
         (dishIngredient) => dishIngredient.ingredient === ingredient._id,
       ),
   )
-  const [createIngredientData, setCreateIngredientData] =
-    useState<DishIngredientForm>({
+  const [ingredientData, dispatchIngredient] = useReducer(
+    genericFormReducer<DishIngredientForm>,
+    {
       ingredient: availableIngredients?.[0]?._id,
       quantity: 1,
-    })
+    },
+  )
 
   // Used to update the form data when a dish is edited
   useEffect(() => {
@@ -51,7 +53,7 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
   // Return data to parent component
   useEffect(() => {
     onChange(formData)
-  }, [formData])
+  }, [formData, onChange])
 
   // Update the available ingredients when the form ingredients change
   useEffect(() => {
@@ -64,20 +66,22 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
       )
       .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
 
-    setCreateIngredientData({
-      ingredient: availableIngredients?.[0]?._id,
-      quantity: 1,
+    dispatchIngredient({
+      type: "SET_DATA",
+      payload: {
+        ingredient: availableIngredients?.[0]?._id,
+        quantity: 1,
+      },
     })
-  }, [formData.ingredients])
+  }, [formData.ingredients, ingredients])
 
   const createIngredient = () => {
-    console.log(createIngredientData)
-    if (createIngredientData.ingredient && createIngredientData.quantity) {
+    if (ingredientData.ingredient && ingredientData.quantity) {
       dispatch({
         type: "ADD_ARRAY_ELEMENT",
         payload: {
           accessor: "ingredients",
-          value: createIngredientData,
+          value: ingredientData,
         },
       })
     }
@@ -161,7 +165,7 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
       />
       <div>
         <div className="mt-8 flex flex-row gap-4 items-end">
-          <Select
+          <Select<Ingredient>
             name="ingredient"
             label="Ingrédient"
             noDataMessage="Aucun ingrédient disponible"
@@ -171,11 +175,14 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
               display: "name",
               value: "_id",
             }}
-            value={createIngredientData.ingredient}
+            value={ingredientData.ingredient}
             onChange={(e) =>
-              setCreateIngredientData({
-                ...createIngredientData,
-                ingredient: e.target.value as ObjectId,
+              dispatchIngredient({
+                type: "CHANGE_INPUT",
+                payload: {
+                  accessor: "ingredient",
+                  value: e.target.value as ObjectId,
+                },
               })
             }
           />
@@ -184,12 +191,15 @@ const ManageDish = ({ dish, ingredients, onChange }: Props) => {
             label="Quantité"
             name="quantity"
             min={1}
-            defaultValue={createIngredientData.quantity}
+            defaultValue={ingredientData.quantity}
             disabled={!availableIngredients.length}
             onChange={(e) =>
-              setCreateIngredientData({
-                ...createIngredientData,
-                quantity: +e.target.value,
+              dispatchIngredient({
+                type: "CHANGE_INPUT",
+                payload: {
+                  accessor: "quantity",
+                  value: +e.target.value,
+                },
               })
             }
           />
