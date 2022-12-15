@@ -1,25 +1,24 @@
 import React, { ChangeEvent, useEffect, useState } from "react"
-import { GetTypeFromArray } from "types/common.type"
 import WithLabel from "./WithLabel"
 
-interface Props {
+type Props<T> = {
   name: string
   label?: string
   placeholder?: string
   noDataMessage?: string
   disabled?: boolean
-  data: any[]
-  value?: any
-  defaultValue?: any
+  data: T[]
+  value?: string | number
+  defaultValue?: string | number
   accessor?: {
-    value: string
-    display: string
+    value: keyof T
+    display: keyof T
   }
   // eslint-disable-next-line no-unused-vars
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void
 }
 
-const Select = ({
+const Select = <T,>({
   label,
   name,
   data,
@@ -30,11 +29,9 @@ const Select = ({
   accessor,
   disabled,
   onChange,
-}: Props) => {
+}: Props<T>) => {
   const inputId = `input-select-${name}`
-  const [selected, setSelected] = useState<GetTypeFromArray<Props["data"]>>(
-    accessor ? defaultValue?.[accessor.value] : defaultValue || "",
-  )
+  const [selected, setSelected] = useState<string | number>(defaultValue || "")
   useEffect(() => {
     if (value) setSelected(value)
   }, [value])
@@ -61,8 +58,11 @@ const Select = ({
           const value = accessor ? item[accessor.value] : item
           const display = accessor ? item[accessor.display] : item
           return (
-            <option key={JSON.stringify(item) + index} value={value}>
-              {display}
+            <option
+              key={JSON.stringify(item) + index}
+              value={value as string | number}
+            >
+              {display as string | number}
             </option>
           )
         })
