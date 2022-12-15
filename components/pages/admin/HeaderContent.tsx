@@ -1,10 +1,10 @@
 "use client"
 
-import { useRouter } from "next/router"
 import React from "react"
 import { useAuth } from "hooks/contexts/useAuth"
 import Link from "next/link"
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/20/solid"
+import { useRouter } from "next/navigation"
 
 
 const HeaderContent = () => {
