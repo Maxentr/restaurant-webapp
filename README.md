@@ -1,26 +1,10 @@
+# Restaurant APP
+
 This is a [Next.js](https://nextjs.org/) project used for a restaurant app.
 
-## TODO
+This project, have its own API server. You can find it [here](https://github.com/Maxentr/restaurant-api)
 
-### ADMIN
-
-[ ] - Dishes CRUD
-[ ] - Menu CRUD
-
-### USER
-
-[X] - Cart page
-[ ] - Filter dish by category
-[ ] - Add delete item from cart
-[ ] - Add update quantity item from cart
-[ ] - Add checkout
-[ ] - Add order history
-[ ] - Add order detail
-
-### UI
-
-[ ] - loading
-[ ] - Button component
+Checkout my generic form reducer [here](/utils/formReducer.ts)
 
 ## Getting Started
 
