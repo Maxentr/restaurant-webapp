@@ -9,6 +9,7 @@ import {
   OrderItemMenu,
   OrderItemType,
 } from "types/order.type"
+import { ObjectId } from "../../types/common.type"
 
 type AddCartItem = OrderItemMenu | OrderItemDish | OrderItemDrink
 
@@ -21,7 +22,7 @@ type CartContextInterface = Omit<
   // eslint-disable-next-line no-unused-vars
   addToCart: (newItem: AddCartItem) => void
   // eslint-disable-next-line no-unused-vars
-  removeFromCart: (id: string) => void
+  removeFromCart: (id: ObjectId) => void
   cartItems: CartItem[]
 }
 
@@ -88,8 +89,12 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
    *
    * @beta
    */
-  const removeFromCart = (id: string): void => {
-    const newCart = cart.filter((item) => item._id !== id)
+  const removeFromCart = (id: ObjectId): void => {
+    const newCart = cart.filter((item) => {
+      if ("menu" in item) return item.menu !== id
+      else if ("dish" in item) return item.dish !== id
+      return item.drink !== id
+    })
     setCart(newCart)
     refreshTotal(newCart)
   }
