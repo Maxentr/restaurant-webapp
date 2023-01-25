@@ -1,4 +1,4 @@
-import { getIngredients } from "../../../services/ingredient.service"
+import { getIngredients } from "services/ingredient.service"
 import IngredientsManagement from "./Ingredients"
 
 const Page = async () => {

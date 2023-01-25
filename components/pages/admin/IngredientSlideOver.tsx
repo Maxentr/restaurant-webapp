@@ -1,13 +1,13 @@
 import { PlusIcon } from "@heroicons/react/20/solid"
 import { useEffect, useReducer, useState } from "react"
-import { useToast } from "../../../hooks/contexts/useToast"
+import { useToast } from "hooks/contexts/useToast"
 import {
   addIngredient,
   editIngredient,
   getIngredientsStockType,
-} from "../../../services/ingredient.service"
-import { Ingredient } from "../../../types/ingredient.type"
-import SlideOver from "../../ui/SlideOver"
+} from "services/ingredient.service"
+import { Ingredient } from "types/ingredient.type"
+import SlideOver from "components/ui/SlideOver"
 
 export type IngredientSlideOverProps = {
   toggle: () => void

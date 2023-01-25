@@ -1,20 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { Drink, DrinkStockSize } from "../../../types/drink.type"
-import { deleteDrink } from "../../../services/drink.service"
-import RCTable from "rc-table"
-import {
-  MinusIcon,
-  PlusIcon,
-  PencilIcon,
-  TrashIcon,
-} from "@heroicons/react/20/solid"
+import { Drink, DrinkStockSize } from "types/drink.type"
+import { deleteDrink } from "services/drink.service"
+import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { ColumnsType, DefaultRecordType } from "rc-table/lib/interface"
-import { useToast } from "../../../hooks/contexts/useToast"
-import DrinkSlideOver from "../../../components/pages/admin/DrinkSlideOver"
-import useModal from "../../../hooks/useModal"
-import { useConfirmationModal } from "../../../hooks/contexts/useConfirmationModal"
+import { useToast } from "hooks/contexts/useToast"
+import DrinkSlideOver from "components/pages/admin/DrinkSlideOver"
+import useModal from "hooks/useModal"
+import { useConfirmationModal } from "hooks/contexts/useConfirmationModal"
+import Table from "components/ui/Table"
 
 type Props = {
   drinksReponse: Drink[]
@@ -135,61 +130,28 @@ const DrinksManagement = ({ drinksReponse }: Props) => {
   const handleSlideOverSubmit = (type: "create" | "edit", drink: Drink) => {
     if (type === "create") setDrinks([...drinks, drink])
     else if (type === "edit") {
-      const newDrinks = drinks.map((ing) => {
-        if (ing._id === drink._id) return drink
-        return ing
-      })
+      const newDrinks = drinks.map((oldDrink) =>
+        oldDrink._id === drink._id ? drink : oldDrink,
+      )
       setDrinks(newDrinks)
     }
     toggle()
   }
 
-  const CustomExpandIcon = (props: any) => {
-    return (
-      <div
-        onClick={(e) => {
-          props.onExpand(props.record, e)
-        }}
-        className="expand-row-icon w-full h-full cursor-pointer"
-      >
-        {props.expanded ? (
-          <MinusIcon className="fill-gray-900 w-4" />
-        ) : (
-          <PlusIcon className="fill-gray-900 w-4" />
-        )}
-      </div>
-    )
-  }
-
   return (
     <>
-      <div className="flex flex-col items-center justify-center self-stretch w-full mt-8 mb-12">
+      <div className="flex flex-col items-center justify-center self-stretch w-full">
         <div className="max-w-7xl">
-          {drinks.length > 0 && (
-            <RCTable
-              rowKey={(row) => row._id}
-              columns={columns}
-              expandable={{
-                showExpandColumn: true,
-                indentSize: 0,
-                expandRowByClick: false,
-                expandedRowClassName: () => "border border-gray-200",
-                expandedRowRender: (row) => (
-                  <RCTable
-                    rowKey={(row) => row._id}
-                    columns={expandColumns}
-                    data={row.sizes}
-                    className="w-full"
-                    rowClassName="w-full border-t border-gray-200"
-                  />
-                ),
-                expandIcon: CustomExpandIcon,
-              }}
-              data={drinks}
-              className=""
-              rowClassName="border border-gray-200"
-            />
-          )}
+          <Table
+            columns={columns}
+            data={drinks}
+            rowKey="_id"
+            expandOptions={{
+              accessor: "sizes",
+              rowKey: "_id",
+              columns: expandColumns,
+            }}
+          />
           <div className="w-full flex flex-row mt-4">
             <button
               className="bg-gray-900 text-white font-bold py-2 px-4 rounded"

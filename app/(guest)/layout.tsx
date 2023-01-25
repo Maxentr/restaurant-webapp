@@ -1,9 +1,9 @@
 "use client"
 
 import { ReactNode } from "react"
-import GuestHeader from "../../components/pages/GuestHeader"
-import Header from "../../components/ui/Header"
-import Navbar from "../../components/ui/Navbar"
+import GuestHeader from "components/pages/GuestHeader"
+import Header from "components/ui/Header"
+import Navbar from "components/ui/Navbar"
 
 const routes = [
   {

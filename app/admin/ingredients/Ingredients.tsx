@@ -1,16 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { Ingredient, StockType } from "../../../types/ingredient.type"
-import { deleteIngredient } from "../../../services/ingredient.service"
+import { Ingredient, StockType } from "types/ingredient.type"
+import { deleteIngredient } from "services/ingredient.service"
 import RCTable from "rc-table"
 import { PencilIcon } from "@heroicons/react/24/solid"
 import { TrashIcon } from "@heroicons/react/20/solid"
 import { ColumnsType, DefaultRecordType } from "rc-table/lib/interface"
-import { useToast } from "../../../hooks/contexts/useToast"
-import IngredientSlideOver from "../../../components/pages/admin/IngredientSlideOver"
-import useModal from "../../../hooks/useModal"
-import { useConfirmationModal } from "../../../hooks/contexts/useConfirmationModal"
+import { useToast } from "hooks/contexts/useToast"
+import IngredientSlideOver from "components/pages/admin/IngredientSlideOver"
+import useModal from "hooks/useModal"
+import { useConfirmationModal } from "hooks/contexts/useConfirmationModal"
 import { useRouter } from "next/navigation"
 
 type Props = {
@@ -150,7 +150,7 @@ const IngredientsManagement = ({ ingredients }: Props) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center self-stretch w-full mt-8 mb-12">
+    <div className="flex flex-col items-center justify-center self-stretch w-full">
       <div className="max-w-7xl">
         {ingredients && ingredients.length > 0 && (
           <RCTable

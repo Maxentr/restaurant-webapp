@@ -1,10 +1,10 @@
 import { ShoppingCartIcon } from "@heroicons/react/20/solid"
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
-import { Drink } from "../../../types/drink.type"
-import SlideOver from "../../ui/SlideOver"
-import Radio from "../../ui/Radio"
-import { useCart } from "../../../hooks/contexts/useCart"
+import { Drink } from "types/drink.type"
+import SlideOver from "components/ui/SlideOver"
+import Radio from "components/ui/Radio"
+import { useCart } from "hooks/contexts/useCart"
 
 export type DrinkSlideOverProps = {
   toggle: () => void

@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
-import { ToastType, useToast } from "../../hooks/contexts/useToast"
+import { ToastType, useToast } from "hooks/contexts/useToast"
 
 const ToastList = () => {
   const { toasts, removeToast } = useToast()

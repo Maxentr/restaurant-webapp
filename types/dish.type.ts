@@ -3,7 +3,7 @@ import { Ingredient } from "./ingredient.type"
 
 export type DishIngredient = {
   _id: ObjectId
-  ingredient: string | Ingredient
+  ingredient: ObjectId | Ingredient
   quantity: number
 }
 
@@ -17,4 +17,14 @@ export type Dish = {
   ingredients: DishIngredient[]
   createdAt: Date
   updatedAt: Date
+}
+
+// CRUD operations
+export interface DishIngredientForm
+  extends Omit<DishIngredient, "_id" | "ingredient"> {
+  ingredient: string
+}
+export interface DishForm
+  extends Omit<Dish, "_id" | "ingredients" | "createdAt" | "updatedAt"> {
+  ingredients: DishIngredientForm[]
 }

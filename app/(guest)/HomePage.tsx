@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Card, { CardType } from "../../components/ui/Card"
-import MenuSlideOver from "../../components/pages/Menus/MenuSlideOver"
-import useModal from "../../hooks/useModal"
-import { Menu } from "../../types/menu.type"
+import Card, { CardType } from "components/ui/Card"
+import MenuSlideOver from "components/pages/Menus/MenuSlideOver"
+import useModal from "hooks/useModal"
+import { Menu } from "types/menu.type"
 
 type HomeProps = {
   menus: Menu[]

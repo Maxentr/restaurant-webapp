@@ -6,7 +6,7 @@ import React, {
   useContext,
   useState,
 } from "react"
-import ToastList from "../../components/ui/ToastList"
+import ToastList from "components/ui/ToastList"
 
 export type ToastType = "success" | "info" | "warning" | "error"
 

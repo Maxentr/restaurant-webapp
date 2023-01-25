@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import DrinkSlideOver from "../../../components/pages/Drinks/DrinkSlideOver"
-import Card, { CardType } from "../../../components/ui/Card"
-import useModal from "../../../hooks/useModal"
-import { Drink } from "../../../types/drink.type"
+import DrinkSlideOver from "components/pages/Drinks/DrinkSlideOver"
+import Card, { CardType } from "components/ui/Card"
+import useModal from "hooks/useModal"
+import { Drink } from "types/drink.type"
 
 type DrinksProps = {
   drinks: Drink[]

@@ -1,8 +1,8 @@
 import axios from "axios"
-import { ApiResponse } from "../types/apiResponse.type"
-import { ObjectId } from "../types/common.type"
-import { Menu } from "../types/menu.type"
-import { AxiosAuthConfig, AxiosErrorHandler } from "../utils/axiosHelper"
+import { ApiResponse } from "types/apiResponse.type"
+import { ObjectId } from "types/common.type"
+import { Menu, MenuForm } from "types/menu.type"
+import { AxiosAuthConfig, AxiosErrorHandler } from "utils/axiosHelper"
 
 const API_ROUTE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/menus`
 
@@ -33,7 +33,7 @@ export const getMenu = async (id: ObjectId): ApiResponse<Menu> => {
   }
 }
 
-export const editMenu = async (id: ObjectId, menu: Menu): ApiResponse<Menu> => {
+export const editMenu = async (id: ObjectId, menu: MenuForm): ApiResponse<Menu> => {
   try {
     const { data } = await axios.patch(
       `${API_ROUTE_URL}/${id}`,
