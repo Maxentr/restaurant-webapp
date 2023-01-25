@@ -1,5 +1,6 @@
 # Restaurant APP
 
+
 This is a [Next.js](https://nextjs.org/) project used for a restaurant app.
 
 This project, have its own API server. You can find it [here](https://github.com/Maxentr/restaurant-api)
